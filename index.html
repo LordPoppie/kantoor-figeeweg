@@ -1,0 +1,1009 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Kantoor Figeeweg</title>
+<meta name="description" content="Denk mee over de inrichting van ons nieuwe kantoor aan de Hendrik Figeeweg 5C in Haarlem.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  color-scheme: light;
+  --bg:#f4f6fa; --surface:#ffffff; --surface-2:#eef2f8; --surface-3:#e3e9f3;
+  --border:#dfe5ee; --border-strong:#c3cde0;
+  --text:#0f2549; --text-2:#45526d; --muted:#6b7688;
+  --accent:#446dff; --accent-2:#2e55e6; --accent-soft:#d9e4ff; --on-accent:#ffffff;
+  --danger:#c2410c;
+  --plan-bg:#fbfcfe; --plan-ink:#0f2549; --plan-grid:rgba(68,109,255,.08); --plan-dim:#7a879e;
+  --k-werk:#e2eaff; --k-hal:#f2e9d6; --k-berging:#e8dfd0; --k-sanitair:#dcefee;
+  --k-verkeer:#fbebc8; --k-keuken:#dff2e4; --k-open:#ffffff; --k-buiten:#eaf0e6;
+  --shadow:0 1px 2px rgba(15,37,73,.05),0 10px 30px -16px rgba(15,37,73,.25);
+  --radius:14px; --radius-sm:9px;
+  --font:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --bg:#0a1a34; --surface:#0f2549; --surface-2:#15305a; --surface-3:#1d3a68;
+    --border:#243d66; --border-strong:#36528a;
+    --text:#eaf1ff; --text-2:#b1c1de; --muted:#8595b3;
+    --accent:#6d8cff; --accent-2:#93aaff; --accent-soft:#1d3266; --on-accent:#ffffff;
+    --danger:#fb923c;
+    --plan-bg:#0c1f40; --plan-ink:#cfdcf7; --plan-grid:rgba(147,170,255,.07); --plan-dim:#7f90b3;
+    --k-werk:#1b3264; --k-hal:#2c2a26; --k-berging:#302a22; --k-sanitair:#143538;
+    --k-verkeer:#3a2f19; --k-keuken:#15352a; --k-open:#0f2549; --k-buiten:#18302a;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px -16px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --bg:#0a1a34; --surface:#0f2549; --surface-2:#15305a; --surface-3:#1d3a68;
+  --border:#243d66; --border-strong:#36528a;
+  --text:#eaf1ff; --text-2:#b1c1de; --muted:#8595b3;
+  --accent:#6d8cff; --accent-2:#93aaff; --accent-soft:#1d3266; --on-accent:#ffffff;
+  --danger:#fb923c;
+  --plan-bg:#0c1f40; --plan-ink:#cfdcf7; --plan-grid:rgba(147,170,255,.07); --plan-dim:#7f90b3;
+  --k-werk:#1b3264; --k-hal:#2c2a26; --k-berging:#302a22; --k-sanitair:#143538;
+  --k-verkeer:#3a2f19; --k-keuken:#15352a; --k-open:#0f2549; --k-buiten:#18302a;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px -16px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font:15px/1.5 var(--font);-webkit-font-smoothing:antialiased;padding-bottom:env(safe-area-inset-bottom,0px)}
+img{max-width:100%}
+[hidden]{display:none!important}
+button,input,textarea,select{font:inherit;color:inherit}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1260px;margin:0 auto;padding-inline:20px}
+@media (max-width:520px){.wrap{padding-inline:16px}}
+
+/* header */
+.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding-top:env(safe-area-inset-top,0px)}
+.top-in{display:flex;align-items:center;gap:14px;padding-block:12px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0;flex:1}
+.brand .logo{height:24px;width:auto;display:block;flex:none}
+.logo-dark{display:none!important}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .logo-light{display:none!important}:root:not([data-theme="light"]) .logo-dark{display:block!important}}
+:root[data-theme="dark"] .logo-light{display:none!important}
+:root[data-theme="dark"] .logo-dark{display:block!important}
+.brand-sep{width:1px;height:22px;background:var(--border-strong);flex:none}
+.brand-title{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand-title span{color:var(--muted);font-weight:500}
+.me-chip{display:flex;align-items:center;gap:8px;border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:4px 12px 4px 4px;cursor:pointer;font-size:13px;font-weight:600;max-width:200px}
+.me-chip .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.icon-btn{width:34px;height:34px;border-radius:999px;border:1px solid var(--border);background:var(--surface);display:grid;place-items:center;cursor:pointer;flex:none}
+.icon-btn svg{width:16px;height:16px}
+.avatar{width:26px;height:26px;border-radius:999px;display:grid;place-items:center;font-size:11px;font-weight:700;color:#fff;flex:none;letter-spacing:.02em}
+@media (max-width:620px){.brand-sep,.brand-title{display:none}}
+
+/* intro + tabs */
+.intro{padding-block:28px 6px}
+.eyebrow{font:500 11px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.intro h1{font-size:clamp(26px,4vw,40px);line-height:1.08;letter-spacing:-.025em;font-weight:900;margin:8px 0 10px;text-wrap:balance}
+.intro p{color:var(--text-2);max-width:68ch;margin:0}
+.facts{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:14px;font:500 12px/1.4 var(--mono);color:var(--muted)}
+.facts b{color:var(--text);font-weight:600}
+.tabs{display:flex;gap:4px;margin-top:22px;border-bottom:1px solid var(--border);overflow-x:auto}
+.tab{appearance:none;border:0;background:none;padding:10px 14px;font-weight:600;font-size:14px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;display:flex;align-items:center;gap:8px}
+.tab[aria-selected="true"]{color:var(--text);border-bottom-color:var(--accent)}
+.tab .n{font:600 11px var(--mono);background:var(--surface-2);color:var(--text-2);border-radius:999px;padding:1px 7px}
+main{padding-block:22px 60px}
+
+/* floor switch */
+.floorbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.floor-btn{appearance:none;border:1px solid var(--border);background:var(--surface);border-radius:12px;padding:9px 14px;cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:1px;min-width:0}
+.floor-btn b{font-size:14px}
+.floor-btn span{font:500 11px var(--mono);color:var(--muted)}
+.floor-btn[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.floor-btn[aria-pressed="true"] span{color:var(--text-2)}
+
+.plan-layout{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:900px){.plan-layout{grid-template-columns:1fr}}
+.plan-card{background:var(--plan-bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px;position:sticky;top:76px}
+@media (max-width:900px){.plan-card{position:static}}
+.plan-card svg{display:block;width:100%;height:auto;max-height:calc(100vh - 230px);margin:0 auto}
+@media (max-width:900px){.plan-card svg{max-height:none}}
+.plan-desc{font-size:13px;color:var(--text-2);margin:0 0 10px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:12px;font-size:12px;color:var(--muted)}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;border:1px solid var(--border-strong);vertical-align:-1px;margin-right:5px}
+.src{font-size:12px;color:var(--muted);margin:10px 0 0}
+
+/* plan svg */
+.room{cursor:pointer}
+.room polygon{stroke:var(--plan-ink);stroke-width:.07;transition:fill .15s}
+.room:hover polygon{filter:brightness(.96)}
+.room:focus{outline:none}
+.room:focus-visible polygon{stroke:var(--accent);stroke-width:.18}
+.room.sel polygon{fill:var(--accent-soft)!important;stroke:var(--accent);stroke-width:.18}
+.room text{fill:var(--plan-ink);pointer-events:none}
+.room .rn{font-family:var(--font);font-weight:700}
+.room .ra{font-family:var(--mono);opacity:.65}
+.k-werk polygon{fill:var(--k-werk)} .k-hal polygon{fill:var(--k-hal)} .k-berging polygon{fill:var(--k-berging)}
+.k-sanitair polygon{fill:var(--k-sanitair)} .k-verkeer polygon{fill:var(--k-verkeer)} .k-keuken polygon{fill:var(--k-keuken)}
+.k-open polygon{fill:var(--k-open)} .k-buiten polygon{fill:var(--k-buiten);stroke-dasharray:.3 .2}
+.badge circle{fill:var(--accent)} .badge text{fill:#fff!important;font-family:var(--mono);font-weight:600}
+.wall{fill:none;stroke:var(--plan-ink);stroke-width:.22}
+.fx{fill:none;stroke:var(--plan-ink);stroke-width:.04;opacity:.6}
+.fx-fill{fill:var(--plan-ink);opacity:.55}
+.dim{stroke:var(--plan-dim);stroke-width:.035;fill:none}
+.dimt{fill:var(--plan-dim);font-family:var(--mono)}
+.door{stroke:var(--accent);stroke-width:.2;fill:none}
+.doort{fill:var(--accent);font-family:var(--mono);font-weight:600}
+
+.room-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.chip{appearance:none;border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:5px 11px;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;color:var(--text)}
+.chip .n{font:600 11px var(--mono);color:var(--accent)}
+.chip[aria-pressed="true"]{background:var(--text);color:var(--surface);border-color:var(--text)}
+.chip[aria-pressed="true"] .n{color:var(--surface)}
+
+/* panel */
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.panel-head{padding:20px 22px 16px;border-bottom:1px solid var(--border)}
+.panel-head h2{margin:6px 0 4px;font-size:24px;letter-spacing:-.02em;font-weight:800}
+.meta{font:500 12px/1.5 var(--mono);color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 14px}
+.note{font-size:13.5px;color:var(--text-2);margin:10px 0 0}
+.consensus{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12.5px;color:var(--text-2)}
+.pill{display:inline-flex;align-items:center;gap:5px;border-radius:999px;background:var(--accent-soft);color:var(--text);padding:3px 10px;font-size:12.5px;font-weight:600}
+.pill small{font:600 11px var(--mono);color:var(--accent)}
+.sec{padding:18px 22px;border-bottom:1px solid var(--border)}
+.sec:last-child{border-bottom:0}
+.sec-h{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.sec-h h3{margin:0;font-size:15px;font-weight:700}
+.sec-h .eyebrow{font-size:10.5px}
+
+.btn{appearance:none;border:1px solid transparent;background:var(--accent);color:var(--on-accent);border-radius:10px;padding:9px 15px;font-weight:600;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+.btn:hover{background:var(--accent-2)}
+.btn:disabled{opacity:.55;cursor:default}
+.btn.ghost{background:var(--surface);color:var(--text);border-color:var(--border)}
+.btn.ghost:hover{background:var(--surface-2)}
+.btn.sm{padding:6px 11px;font-size:13px;border-radius:8px}
+
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.field label{font-size:12.5px;font-weight:600;color:var(--text-2)}
+.field label small{font-weight:400;color:var(--muted)}
+input[type=text],input[type=url],textarea,select{width:100%;border:1px solid var(--border-strong);background:var(--surface);border-radius:9px;padding:9px 11px;font-size:14px;line-height:1.45}
+textarea{resize:vertical;min-height:62px}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+@media (max-width:560px){.grid2{grid-template-columns:1fr}}
+.quick{display:flex;flex-wrap:wrap;gap:5px;margin-top:2px}
+.quick button{appearance:none;border:1px dashed var(--border-strong);background:transparent;border-radius:999px;padding:3px 9px;font-size:12px;cursor:pointer;color:var(--text-2)}
+.quick button:hover{border-color:var(--accent);color:var(--accent)}
+.form-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.hint{font-size:12px;color:var(--muted)}
+.err{font-size:12.5px;color:var(--danger)}
+.file-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.thumbs{display:flex;gap:6px;flex-wrap:wrap}
+.thumbs img{width:56px;height:56px;object-fit:cover;border-radius:7px;border:1px solid var(--border)}
+
+/* idea cards */
+.cards{display:flex;flex-direction:column;gap:12px}
+.idea{border:1px solid var(--border);border-radius:12px;background:var(--surface);padding:14px 16px}
+.idea-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.idea h4{margin:0;font-size:16px;font-weight:700;letter-spacing:-.01em}
+.idea dl{margin:10px 0 0;display:grid;grid-template-columns:auto 1fr;gap:5px 12px;font-size:13.5px}
+.idea dt{font:500 10.5px/1.9 var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.idea dd{margin:0;color:var(--text);white-space:pre-wrap;overflow-wrap:anywhere}
+.idea .pic{margin-top:10px;border-radius:9px;max-height:260px;object-fit:cover;width:100%;cursor:zoom-in}
+.byline{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);margin-top:12px;flex-wrap:wrap}
+.byline b{color:var(--text-2);font-weight:600}
+.byline .sp{flex:1}
+.act{appearance:none;border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:3px 10px;font-size:12.5px;cursor:pointer;display:inline-flex;align-items:center;gap:5px;color:var(--text-2)}
+.act svg{width:13px;height:13px}
+.act.on{background:var(--accent-soft);border-color:var(--accent);color:var(--text)}
+.act.del{border-color:transparent;color:var(--muted)}
+.act.del.arm{color:var(--danger);border-color:var(--danger)}
+.thread{margin-top:10px;padding-top:10px;border-top:1px dashed var(--border);display:flex;flex-direction:column;gap:9px}
+.cmt{display:flex;gap:9px;align-items:flex-start;font-size:13.5px}
+.cmt .body{min-width:0;flex:1}
+.cmt .who{font-size:12px;color:var(--muted)}
+.cmt .who b{color:var(--text-2)}
+.cmt p{margin:1px 0 0;white-space:pre-wrap;overflow-wrap:anywhere}
+.cmt-form{display:flex;gap:8px;align-items:flex-end}
+.cmt-form textarea{min-height:38px;height:38px;font-size:13.5px;padding:8px 10px}
+.empty{border:1px dashed var(--border-strong);border-radius:12px;padding:16px;color:var(--muted);font-size:13.5px;text-align:center}
+
+/* moodboard */
+.mood-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:16px}
+.filters{display:flex;flex-wrap:wrap;gap:6px}
+.mood-form{margin-bottom:20px}
+.masonry{columns:4 250px;column-gap:14px}
+.mcard{break-inside:avoid;margin:0 0 14px;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;display:block;width:100%;text-align:left;padding:0;appearance:none}
+.mcard img{display:block;width:100%;height:auto;background:var(--surface-2)}
+.mcard .mc-b{padding:10px 12px}
+.mcard .cap{font-size:13.5px;margin:0 0 6px;overflow-wrap:anywhere}
+.mcard .mc-meta{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+.mcard .mc-meta .sp{flex:1}
+.tag{font:600 10.5px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--accent);}
+
+/* overview */
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:22px}
+@media (max-width:700px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.kpi b{display:block;font-size:28px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.kpi span{font-size:12.5px;color:var(--muted)}
+.ov-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:900px){.ov-grid{grid-template-columns:1fr}}
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{text-align:left;font:500 10.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:8px 10px;border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+td.num{font-variant-numeric:tabular-nums;text-align:right;font-family:var(--mono);font-size:12.5px}
+th.num{text-align:right}
+tr.fl td{background:var(--surface-2);font-weight:700;font-size:12.5px}
+tr.rowlink{cursor:pointer}
+tr.rowlink:hover td{background:var(--surface-2)}
+
+/* modal */
+.modal{position:fixed;inset:0;z-index:50;background:rgba(6,14,30,.55);display:grid;place-items:center;padding:16px}
+.modal-box{background:var(--surface);border-radius:16px;box-shadow:0 30px 80px -20px rgba(0,0,0,.5);width:min(460px,100%);max-height:calc(100vh - 32px);overflow:auto}
+.modal-box.wide{width:min(980px,100%)}
+.gate{padding:26px}
+.gate h2{margin:6px 0 8px;font-size:22px;letter-spacing:-.02em}
+.gate p{color:var(--text-2);font-size:14px;margin:0 0 16px}
+.lb{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr)}
+@media (max-width:760px){.lb{grid-template-columns:1fr}}
+.lb-img{background:#0b1426;display:grid;place-items:center;min-height:240px}
+.lb-img img{max-height:78vh;width:auto;display:block}
+.lb-side{padding:20px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.lb-close{position:absolute;top:10px;right:10px}
+.conn{font:500 11px var(--mono);color:var(--muted);display:flex;align-items:center;gap:6px}
+.conn i{width:7px;height:7px;border-radius:9px;background:#9aa4b5;display:inline-block}
+.conn.ok i{background:#22a65a}
+.conn.bad i{background:var(--danger)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--text);color:var(--surface);padding:10px 16px;border-radius:10px;font-size:14px;font-weight:600;z-index:60;box-shadow:var(--shadow)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top-in">
+    <div class="brand">
+      <img class="logo logo-light" src="assets/logo-onlight.svg" alt="Fastlane" height="24">
+      <img class="logo logo-dark" src="assets/logo-ondark.svg" alt="Fastlane" height="24">
+      <div class="brand-sep"></div>
+      <div class="brand-title">Nieuw kantoor <span>· Hendrik Figeeweg 5C</span></div>
+    </div>
+    <span class="conn" id="conn"><i></i><span>verbinden…</span></span>
+    <button class="me-chip" id="me-chip" type="button" title="Naam wijzigen"><span class="avatar" id="me-av">?</span><span class="nm" id="me-nm">Wie ben jij?</span></button>
+    <button class="icon-btn" id="theme-btn" type="button" aria-label="Licht of donker thema">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="intro">
+    <div class="eyebrow">Verhuizing · Waarderpolder, Haarlem</div>
+    <h1>Hoe gaat ons nieuwe kantoor eruitzien?</h1>
+    <p>Kies een verdieping, klik op een ruimte en vertel wat die ruimte moet worden: wat erin komt, hoe je hem indeelt en welke materialen en sfeer je voor je ziet. Zet foto's en inspiratie op het moodboard en reageer op elkaars ideeën. Bij alles wat je plaatst staat je naam, zodat we weten wie wat vindt.</p>
+    <div class="facts">
+      <span><b>710 m²</b> totaal</span>
+      <span>BG <b>450 m²</b></span>
+      <span>Tussenverdieping <b>60 m²</b></span>
+      <span>1e verdieping <b>200 m²</b></span>
+      <span>Energielabel <b>A+++</b></span>
+      <span><b>4</b> parkeerplaatsen</span>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button class="tab" role="tab" data-tab="plan" aria-selected="true">Plattegrond <span class="n" id="n-plan">0</span></button>
+      <button class="tab" role="tab" data-tab="mood" aria-selected="false">Moodboard <span class="n" id="n-mood">0</span></button>
+      <button class="tab" role="tab" data-tab="overview" aria-selected="false">Overzicht</button>
+    </nav>
+  </section>
+
+  <main>
+    <!-- PLATTEGROND -->
+    <section id="v-plan">
+      <div class="floorbar" id="floorbar"></div>
+      <div class="plan-layout">
+        <div>
+          <div class="plan-card">
+            <p class="plan-desc" id="plan-desc"></p>
+            <svg id="plan" role="group" aria-label="Plattegrond"></svg>
+            <div class="legend" id="legend"></div>
+          </div>
+          <div class="room-chips" id="room-chips"></div>
+          <p class="src">Plattegronden nagetekend op basis van de <a href="https://www.fundainbusiness.nl/bedrijfshal/haarlem/object-44500993-hendrik-figeeweg-5-c/" target="_blank" rel="noopener">Funda-advertentie</a>. Maten zijn indicatief.</p>
+        </div>
+
+        <aside class="panel" id="room-panel">
+          <div class="panel-head" id="room-head"></div>
+          <div class="sec">
+            <div class="sec-h"><h3>Ideeën voor deze ruimte</h3><button class="btn sm" id="idea-open" type="button">+ Idee toevoegen</button></div>
+            <form id="idea-form" hidden autocomplete="off">
+              <div class="field">
+                <label for="f-functie">Wat moet deze ruimte worden?</label>
+                <input type="text" id="f-functie" maxlength="80" placeholder="Bijv. kantine, vergaderruimte, werkplaats…">
+                <div class="quick" id="f-quick"></div>
+              </div>
+              <div class="field">
+                <label for="f-inhoud">Wat moet erin komen te staan? <small>meubels, apparatuur, spullen</small></label>
+                <textarea id="f-inhoud" maxlength="2000" placeholder="Lange tafel voor 12, koffiemachine, bank, plantenbak…"></textarea>
+              </div>
+              <div class="field">
+                <label for="f-indeling">Hoe moet de ruimte ingedeeld worden?</label>
+                <textarea id="f-indeling" maxlength="2000" placeholder="Tafel bij het raam, keukenblok tegen de lange wand…"></textarea>
+              </div>
+              <div class="grid2">
+                <div class="field">
+                  <label for="f-materiaal">Materialen</label>
+                  <textarea id="f-materiaal" maxlength="1000" placeholder="Hout, beton, staal, akoestische panelen…"></textarea>
+                </div>
+                <div class="field">
+                  <label for="f-sfeer">Sfeer</label>
+                  <textarea id="f-sfeer" maxlength="1000" placeholder="Warm, industrieel, huiskamer, backstage…"></textarea>
+                </div>
+              </div>
+              <div class="field">
+                <label for="f-foto">Foto of schets <small>optioneel</small></label>
+                <div class="file-row"><input type="file" id="f-foto" accept="image/*"><div class="thumbs" id="f-thumb"></div></div>
+              </div>
+              <div class="form-actions">
+                <button class="btn" type="submit" id="idea-submit">Plaats idee</button>
+                <button class="btn ghost" type="button" id="idea-cancel">Annuleren</button>
+                <span class="err" id="idea-err"></span>
+              </div>
+            </form>
+            <div class="cards list" id="room-ideas"></div>
+          </div>
+          <div class="sec">
+            <div class="sec-h"><h3>Discussie over deze ruimte</h3></div>
+            <div class="list" id="room-thread"></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- MOODBOARD -->
+    <section id="v-mood" hidden>
+      <div class="mood-bar">
+        <div class="filters" id="mood-filters"></div>
+        <button class="btn" id="mood-open" type="button">+ Inspiratie toevoegen</button>
+      </div>
+      <form class="panel mood-form" id="mood-form" hidden autocomplete="off">
+        <div class="sec">
+          <div class="sec-h"><h3>Inspiratie toevoegen</h3><span class="hint">Tip: je kunt ook een afbeelding plakken (⌘V)</span></div>
+          <div class="grid2">
+            <div class="field">
+              <label for="m-files">Foto's uploaden</label>
+              <input type="file" id="m-files" accept="image/*" multiple>
+              <div class="thumbs" id="m-thumbs" style="margin-top:6px"></div>
+            </div>
+            <div class="field">
+              <label for="m-url">…of link naar een afbeelding <small>(eindigt op .jpg/.png)</small></label>
+              <input type="url" id="m-url" placeholder="https://…">
+            </div>
+          </div>
+          <div class="field">
+            <label for="m-cap">Wat spreekt je hierin aan?</label>
+            <textarea id="m-cap" maxlength="1000" placeholder="De warme houten wanden met veel planten, voelt als een huiskamer…"></textarea>
+          </div>
+          <div class="grid2">
+            <div class="field">
+              <label for="m-cat">Categorie</label>
+              <select id="m-cat"></select>
+            </div>
+            <div class="field">
+              <label for="m-room">Hoort bij ruimte <small>optioneel</small></label>
+              <select id="m-room"></select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="m-link">Bron / link <small>optioneel, bijv. Pinterest of webshop</small></label>
+            <input type="url" id="m-link" placeholder="https://…">
+          </div>
+          <div class="form-actions">
+            <button class="btn" type="submit" id="mood-submit">Zet op moodboard</button>
+            <button class="btn ghost" type="button" id="mood-cancel">Annuleren</button>
+            <span class="err" id="mood-err"></span>
+          </div>
+        </div>
+      </form>
+      <div class="masonry list" id="mood-grid"></div>
+    </section>
+
+    <!-- OVERZICHT -->
+    <section id="v-overview" hidden>
+      <div class="kpis" id="kpis"></div>
+      <div class="ov-grid">
+        <div class="panel">
+          <div class="sec"><div class="sec-h"><h3>Per ruimte</h3><button class="btn sm ghost" id="csv-btn" type="button">Download alles (CSV)</button></div>
+          <div class="tbl-wrap"><table id="ov-rooms"></table></div></div>
+        </div>
+        <div class="panel">
+          <div class="sec"><div class="sec-h"><h3>Wie deed mee</h3></div>
+          <div class="tbl-wrap"><table id="ov-people"></table></div></div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- naam-modal -->
+<div class="modal" id="gate" hidden>
+  <form class="modal-box gate" id="gate-form">
+    <div class="eyebrow">Even voorstellen</div>
+    <h2>Wie ben jij?</h2>
+    <p>Je naam komt bij alles wat je plaatst: ideeën, foto's en reacties. Zo weten we later wie welke mening heeft.</p>
+    <div class="field"><label for="gate-name">Je naam</label><input type="text" id="gate-name" maxlength="60" placeholder="Voor- en achternaam"></div>
+    <div class="form-actions"><button class="btn" type="submit">Opslaan</button><button class="btn ghost" type="button" id="gate-skip">Eerst rondkijken</button></div>
+  </form>
+</div>
+
+<!-- lightbox -->
+<div class="modal" id="lightbox" hidden>
+  <div class="modal-box wide" style="position:relative">
+    <button class="icon-btn lb-close" id="lb-close" type="button" aria-label="Sluiten"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <div class="lb">
+      <div class="lb-img"><img id="lb-img" alt=""></div>
+      <div class="lb-side list" id="lb-side"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+(function(){
+"use strict";
+var SUPABASE_URL = "https://kchjrwyobxsmzmeseprl.supabase.co";
+var SUPABASE_KEY = "sb_publishable_J32SksOY8NkuO3IC13vgcA_1QP87LfM";
+var BUCKET = "office-mood";
+var FUNDA = "https://www.fundainbusiness.nl/bedrijfshal/haarlem/object-44500993-hendrik-figeeweg-5-c/";
+
+function $(s){ return document.querySelector(s); }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
+function lsGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+function rect(x,y,w,h){ return [[x,y],[x+w,y],[x+w,y+h],[x,y+h]]; }
+function area(p){ var a=0; for(var i=0;i<p.length;i++){ var j=(i+1)%p.length; a+=p[i][0]*p[j][1]-p[j][0]*p[i][1]; } return Math.abs(a)/2; }
+function bbox(p){ var xs=p.map(function(q){return q[0];}), ys=p.map(function(q){return q[1];}); return {x0:Math.min.apply(0,xs),x1:Math.max.apply(0,xs),y0:Math.min.apply(0,ys),y1:Math.max.apply(0,ys)}; }
+function nl(n,d){ return n.toLocaleString("nl-NL",{minimumFractionDigits:d,maximumFractionDigits:d}); }
+function uid(){ return (crypto.randomUUID ? crypto.randomUUID() : "p"+Date.now().toString(36)+Math.random().toString(36).slice(2)); }
+
+// ---------- gebouw ----------
+var L = 30.6; // diepte begane grond (450 m² / 14,73 m)
+var KINDS = { werk:"Kantoor / werkplek", hal:"Hal", keuken:"Keuken", verkeer:"Hal / overloop", sanitair:"Sanitair", berging:"Berging", open:"Open ruimte", buiten:"Buiten" };
+var FLOORS = [
+  { id:"bg", name:"Begane grond", area:"ca. 450 m²", fs:1.0,
+    desc:"Bedrijfshal met royale vrije hoogte, overheaddeur aan de straat, deels vloerverwarming. Links bergingen, 3 toiletten en een douche.",
+    w:14.73, h:L, street:true,
+    rooms:[
+      { id:"bg-hal", name:"Bedrijfshal", kind:"hal", label:[9.9,13.5], fsx:1.35, badge:[13.4,1.3],
+        poly:[[0,0],[14.73,0],[14.73,L],[3.40,L],[3.40,L-4.44],[0,L-4.44],[0,L-6.77],[4.95,L-6.77],[4.95,L-21.63],[0,L-21.63]],
+        note:"Grote vrije overspanning en royale vrije hoogte. Elektrische overheaddeur aan de straatzijde. Via trappen bereik je de tussenverdieping." },
+      { id:"bg-entree", name:"Entreehal", kind:"verkeer", poly:rect(0,L-4.44,3.40,4.44), label:[2.1,L-2.0], note:"Hoofdingang met trap naar de 1e verdieping." },
+      { id:"bg-berging-1", name:"Berging 1", kind:"berging", poly:rect(0,L-10.59,4.95,3.82) },
+      { id:"bg-berging-2", name:"Berging 2", kind:"berging", poly:rect(0,L-17.25,4.95,6.66), note:"Plafondhoogte 2,50 m." },
+      { id:"bg-sanitair", name:"Toiletten & douche", kind:"sanitair", poly:rect(0,L-18.45,4.95,1.2), one:true, note:"3 toiletten en een douche." },
+      { id:"bg-achterhal", name:"Achterhal", kind:"verkeer", poly:rect(0,L-21.63,4.95,3.18), note:"Hal bij de toiletten, met deur naar de bedrijfshal." },
+      { id:"bg-buiten", name:"Voorterrein", kind:"buiten", poly:rect(0,L+0.9,14.73,4.2), outside:true, note:"4 parkeerplaatsen op eigen terrein aan de voorzijde." }
+    ],
+    extras:function(){
+      var s="";
+      [8.2,13.2,18.1,22.9].forEach(function(y){ s+='<rect class="fx-fill" x="9.62" y="'+(y-.16)+'" width=".32" height=".32"/>'; });
+      s+=stairs(1.5,5.9,1.4,1.2,"h")+stairs(11.2,5.9,1.4,1.2,"h");
+      s+=stairs(0.2,L-4.2,0.9,2.8,"v");
+      s+='<line class="door" x1="5.1" y1="'+L+'" x2="9.7" y2="'+L+'"/><text class="doort" x="7.4" y="'+(L-.35)+'" font-size=".42" text-anchor="middle">OVERHEADDEUR</text>';
+      s+='<line class="door" x1="3.45" y1="'+L+'" x2="4.9" y2="'+L+'"/><text class="doort" x="4.17" y="'+(L+.62)+'" font-size=".38" text-anchor="middle">INGANG</text>';
+      return s;
+    }
+  },
+  { id:"tv", name:"Tussenverdieping", area:"ca. 60 m²", fs:.5,
+    desc:"Magazijn/berging boven de hal: een overloop langs vijf bergruimtes. Berging D heeft een lage plafondhoogte (1,85 m); in berging E staat de technische installatie.",
+    w:4.85, h:14.92, street:false,
+    rooms:[
+      { id:"tv-overloop", name:"Overloop", kind:"verkeer", poly:rect(3.80,0,1.05,14.92), vertical:true },
+      { id:"tv-berging-a", name:"Berging A", kind:"berging", poly:rect(0.5,0,3.30,2.66) },
+      { id:"tv-berging-b", name:"Berging B", kind:"berging", poly:rect(0.65,2.66,3.15,2.32) },
+      { id:"tv-berging-c", name:"Berging C", kind:"berging", poly:rect(0.97,4.98,2.83,2.78) },
+      { id:"tv-berging-d", name:"Berging D", kind:"berging", poly:rect(0.97,7.76,2.83,3.21), note:"Plafondhoogte 1,85 m." },
+      { id:"tv-berging-e", name:"Berging E", kind:"berging", label:[1.9,13.1], badge:[3.35,11.45],
+        poly:[[0,0],[0.5,0],[0.5,2.66],[0.65,2.66],[0.65,4.98],[0.97,4.98],[0.97,10.97],[3.80,10.97],[3.80,14.92],[0,14.92]],
+        note:"Technische ruimte (o.a. boiler), met gang langs de andere bergingen." }
+    ],
+    extras:function(){ return stairs(2.1,-1.9,2.75,1.85,"h"); }
+  },
+  { id:"ev", name:"1e verdieping", area:"ca. 200 m²", fs:.72,
+    desc:"Kantoorverdieping: zes kantoorruimtes, een keuken, toiletten en een U-vormige overloop rond een open middengebied met twee lichtkoepels.",
+    w:14.53, h:22.06, street:true,
+    rooms:[
+      { id:"ev-keuken", name:"Keuken", kind:"keuken", poly:rect(0,0,4.9,8.28), note:"Huidige keuken met aanrecht. Logische plek voor de kantine." },
+      { id:"ev-toiletten", name:"Toiletten", kind:"sanitair", poly:rect(0,8.28,3.6,2.12), note:"3 toiletten." },
+      { id:"ev-kast", name:"Kast", kind:"berging", poly:rect(0,10.4,3.6,1.1), one:true },
+      { id:"ev-kantoor-a", name:"Kantoor A", kind:"werk", poly:rect(0,11.5,3.6,7.9), note:"Links aan de voorzijde, naast de trap." },
+      { id:"ev-trap", name:"Trapopgang", kind:"verkeer", poly:rect(0,19.4,3.6,2.66), note:"Trap vanuit de entreehal." },
+      { id:"ev-overloop", name:"Overloop", kind:"verkeer", label:[7.2,15.1], one:true, badge:[10.2,.7],
+        poly:[[3.6,8.28],[4.9,8.28],[4.9,14.5],[9.6,14.5],[9.6,0],[10.8,0],[10.8,15.7],[3.6,15.7]] },
+      { id:"ev-midden", name:"Middengebied", kind:"open", poly:rect(4.9,0,4.7,14.5), label:[7.25,11.6], note:"Open gebied met twee lichtkoepels tussen de overlopen. Wat moet hier gebeuren?" },
+      { id:"ev-kantoor-b", name:"Kantoor B", kind:"werk", poly:rect(3.6,15.7,3.66,6.36), note:"Voorzijde, met een vaste balie/bar-opstelling." },
+      { id:"ev-kantoor-c", name:"Kantoor C", kind:"werk", poly:rect(7.26,15.7,3.54,6.36), note:"Voorzijde. Plafondhoogte 2,50 m." },
+      { id:"ev-kantoor-d", name:"Kantoor D", kind:"werk", poly:rect(10.8,13.85,3.73,8.21), note:"Rechts aan de voorzijde (hoek)." },
+      { id:"ev-kantoor-e", name:"Kantoor E", kind:"werk", poly:rect(10.8,7.87,3.73,5.98), note:"Rechts, in het midden." },
+      { id:"ev-kantoor-f", name:"Kantoor F", kind:"werk", poly:rect(10.8,0,3.73,7.87), note:"Rechts achter, grenst aan de hal." }
+    ],
+    extras:function(){
+      var s='<rect class="fx" x="6.35" y="2.9" width="1.8" height="2.6" style="stroke-width:.12"/><rect class="fx" x="6.35" y="8.9" width="1.8" height="2.6" style="stroke-width:.12"/>';
+      s+='<text class="dimt" x="7.25" y="6.2" font-size=".32" text-anchor="middle">lichtkoepel</text>';
+      s+='<path class="fx" d="M4.3 17.1 h.6 v4.5 h-.6z" style="stroke-width:.08"/>';
+      s+=stairs(0.35,19.8,1.4,1.9,"v");
+      s+=stairs(0.1,-1.3,1.6,1.1,"h")+stairs(9.6,-1.3,1.6,1.1,"h");
+      s+='<text class="dimt" x="7.25" y="-.5" font-size=".36" text-anchor="middle">↑ hal (dubbele hoogte)</text>';
+      return s;
+    }
+  }
+];
+FLOORS.forEach(function(f){
+  f.rooms.unshift({ id:f.id+"-algemeen", name:"Hele verdieping", kind:null, general:true, note:"Algemene ideeën voor de "+f.name.toLowerCase()+", bijvoorbeeld looproutes, licht of hoe de ruimtes samenhangen." });
+  f.rooms.forEach(function(r){ r.floor=f.id; if(r.poly){ r.area=area(r.poly); r.bb=bbox(r.poly); } });
+});
+var ROOMS = {}; FLOORS.forEach(function(f){ f.rooms.forEach(function(r){ ROOMS[r.id]=r; }); });
+function floorOf(id){ return FLOORS.filter(function(f){return f.id===id;})[0]; }
+
+function stairs(x,y,w,h,dir){
+  var s='<rect class="fx" x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'"/>', n=dir==="h"?Math.round(w/.28):Math.round(h/.28);
+  for(var i=1;i<n;i++){ s+= dir==="h" ? '<line class="fx" x1="'+(x+i*w/n)+'" y1="'+y+'" x2="'+(x+i*w/n)+'" y2="'+(y+h)+'"/>' : '<line class="fx" x1="'+x+'" y1="'+(y+i*h/n)+'" x2="'+(x+w)+'" y2="'+(y+i*h/n)+'"/>'; }
+  return s;
+}
+
+var FUNCTIES = ["Kantine","Werkplekken","Vergaderruimte","Focus-/belplek","Lounge","Opslag","Werkplaats","Studio / content","Gameruimte","Sportruimte","Event-demoruimte","Laadplek apparatuur"];
+var MOOD_CATS = ["Sfeer","Materiaal","Meubels","Kleur","Licht","Planten","Werkplaats","Ontspanning","Overig"];
+var AV_COLORS = ["#446dff","#0e9f6e","#7c3aed","#d9480f","#0891b2","#c026d3","#b45309","#2563eb","#be123c","#4d7c0f"];
+
+// ---------- state ----------
+var me = null;
+try{ me = JSON.parse(lsGet("fl_office_me")||"null"); }catch(e){}
+var posts = [], votes = [];
+var state = { tab:"plan", floor:"ev", room:"ev-keuken", moodCat:"Alle", openThreads:{}, drafts:{} };
+var sb = null, connected = false;
+
+function avColor(name){ var h=0; for(var i=0;i<name.length;i++) h=(h*31+name.charCodeAt(i))>>>0; return AV_COLORS[h%AV_COLORS.length]; }
+function initials(name){ var p=String(name||"?").trim().split(/\s+/); return ((p[0]||"?")[0]+(p.length>1?p[p.length-1][0]:"")).toUpperCase(); }
+function avatar(name,size){ return '<span class="avatar" style="background:'+avColor(name||"?")+(size?';width:'+size+'px;height:'+size+'px;font-size:'+Math.round(size*.42)+'px':'')+'">'+esc(initials(name))+'</span>'; }
+var rtf = (window.Intl && Intl.RelativeTimeFormat) ? new Intl.RelativeTimeFormat("nl",{numeric:"auto"}) : null;
+function ago(ts){
+  var d=(new Date(ts).getTime()-Date.now())/1000, a=Math.abs(d);
+  if(!rtf) return new Date(ts).toLocaleString("nl-NL");
+  if(a<60) return "zojuist";
+  if(a<3600) return rtf.format(Math.round(d/60),"minute");
+  if(a<86400) return rtf.format(Math.round(d/3600),"hour");
+  if(a<86400*7) return rtf.format(Math.round(d/86400),"day");
+  return new Date(ts).toLocaleDateString("nl-NL",{day:"numeric",month:"short"});
+}
+function toast(msg){ var t=document.createElement("div"); t.className="toast"; t.textContent=msg; document.body.appendChild(t); setTimeout(function(){ t.remove(); },2400); }
+
+// ---------- data helpers ----------
+function ideasFor(room){ return posts.filter(function(p){ return p.kind==="room_idea" && p.room===room; }); }
+function commentsFor(parentId){ return posts.filter(function(p){ return p.kind==="comment" && p.parent_id===parentId; }).sort(byDate); }
+function roomComments(room){ return posts.filter(function(p){ return p.kind==="comment" && !p.parent_id && p.room===room; }).sort(byDate); }
+function votesFor(id){ return votes.filter(function(v){ return v.post_id===id; }); }
+function iVoted(id){ return me && votes.some(function(v){ return v.post_id===id && v.author_pid===me.pid; }); }
+function byDate(a,b){ return new Date(a.created_at)-new Date(b.created_at); }
+function byScore(a,b){ return votesFor(b.id).length-votesFor(a.id).length || new Date(b.created_at)-new Date(a.created_at); }
+function roomActivity(room){ return posts.filter(function(p){ return p.room===room && (p.kind==="room_idea" || (p.kind==="comment" && !p.parent_id)); }).length; }
+function topFuncties(room){
+  var m={};
+  ideasFor(room).forEach(function(p){
+    var f=(p.body.functie||"").trim(); if(!f) return;
+    var k=f.toLowerCase(); if(!m[k]) m[k]={label:f,n:0,v:0}; m[k].n++; m[k].v+=votesFor(p.id).length;
+  });
+  return Object.keys(m).map(function(k){return m[k];}).sort(function(a,b){ return (b.n+b.v)-(a.n+a.v); });
+}
+
+// ---------- Supabase ----------
+function setConn(s){ var c=$("#conn"); c.className="conn "+(s==="ok"?"ok":s==="bad"?"bad":""); c.lastChild.textContent = s==="ok"?"live":s==="bad"?"offline":"verbinden…"; }
+var loadTimer=null;
+function load(){
+  if(!sb) return;
+  Promise.all([
+    sb.from("office_posts").select("*").order("created_at",{ascending:true}),
+    sb.from("office_votes").select("*")
+  ]).then(function(r){
+    if(r[0].error||r[1].error){ setConn("bad"); console.warn(r[0].error||r[1].error); return; }
+    posts = r[0].data||[]; votes = r[1].data||[]; connected = true; setConn("ok");
+    renderData();
+  }).catch(function(e){ console.warn(e); setConn("bad"); });
+}
+function scheduleLoad(){ clearTimeout(loadTimer); loadTimer=setTimeout(load,250); }
+function initDb(){
+  if(!window.supabase){ setConn("bad"); return; }
+  sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  load();
+  try{
+    sb.channel("office-"+Math.random().toString(36).slice(2))
+      .on("postgres_changes",{event:"*",schema:"public",table:"office_posts"},scheduleLoad)
+      .on("postgres_changes",{event:"*",schema:"public",table:"office_votes"},scheduleLoad)
+      .subscribe();
+  }catch(e){}
+  setInterval(load, 15000);
+}
+function requireMe(){ if(me) return true; showGate(); return false; }
+function insertPost(row){
+  row.author = me.name; row.author_pid = me.pid;
+  return sb.from("office_posts").insert(row).select().single().then(function(res){
+    if(res.error) throw res.error;
+    posts.push(res.data); renderData(); return res.data;
+  });
+}
+function toggleVote(id){
+  if(!requireMe()) return;
+  var mine = iVoted(id);
+  if(mine){ votes = votes.filter(function(v){ return !(v.post_id===id && v.author_pid===me.pid); }); }
+  else { votes.push({post_id:id, author_pid:me.pid, author:me.name, created_at:new Date().toISOString()}); }
+  renderData();
+  var q = mine ? sb.from("office_votes").delete().eq("post_id",id).eq("author_pid",me.pid)
+               : sb.from("office_votes").insert({post_id:id, author_pid:me.pid, author:me.name});
+  q.then(function(res){ if(res.error){ toast("Stem opslaan mislukt"); load(); } });
+}
+function deletePost(id){
+  posts = posts.filter(function(p){ return p.id!==id && p.parent_id!==id; });
+  renderData();
+  sb.from("office_posts").delete().eq("id",id).eq("author_pid",me.pid).then(function(res){ if(res.error){ toast("Verwijderen mislukt"); } load(); });
+}
+function prepImage(file){
+  return new Promise(function(resolve,reject){
+    if(file.type==="image/gif"){ return resolve(file); }
+    var url=URL.createObjectURL(file), img=new Image();
+    img.onload=function(){
+      var max=1800, s=Math.min(1,max/Math.max(img.naturalWidth,img.naturalHeight));
+      var c=document.createElement("canvas"); c.width=Math.round(img.naturalWidth*s); c.height=Math.round(img.naturalHeight*s);
+      c.getContext("2d").drawImage(img,0,0,c.width,c.height); URL.revokeObjectURL(url);
+      c.toBlob(function(b){ b?resolve(b):reject(new Error("Afbeelding kon niet worden verwerkt")); },"image/jpeg",.85);
+    };
+    img.onerror=function(){ URL.revokeObjectURL(url); reject(new Error("Dit bestand is geen leesbare afbeelding")); };
+    img.src=url;
+  });
+}
+function uploadImage(file){
+  return prepImage(file).then(function(blob){
+    var ext = blob.type==="image/gif"?"gif":"jpg";
+    var path = me.pid+"/"+Date.now()+"-"+Math.random().toString(36).slice(2,8)+"."+ext;
+    return sb.storage.from(BUCKET).upload(path, blob, {contentType:blob.type||"image/jpeg", upsert:false}).then(function(res){
+      if(res.error) throw res.error;
+      return sb.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
+    });
+  });
+}
+
+// ---------- rendering: plattegrond ----------
+function renderFloorbar(){
+  $("#floorbar").innerHTML = FLOORS.map(function(f){
+    var n=f.rooms.reduce(function(s,r){ return s+ideasFor(r.id).length; },0);
+    return '<button class="floor-btn" type="button" data-floor="'+f.id+'" aria-pressed="'+(state.floor===f.id)+'"><b>'+esc(f.name)+'</b><span>'+f.area+' · '+n+' idee'+(n===1?'':'ën')+'</span></button>';
+  }).join("");
+}
+function renderPlan(){
+  var f=floorOf(state.floor), fs=f.fs;
+  var all=[]; f.rooms.forEach(function(r){ if(r.poly) all=all.concat(r.poly); });
+  var b=bbox(all), top=Math.min(b.y0,0)-(f.id==="bg"?0.8:2.2), bottom=b.y1+(f.street?2.6:1.9), left=-2.0, right=f.w+0.8;
+  var s='<defs><pattern id="g1" width="1" height="1" patternUnits="userSpaceOnUse"><path d="M1 0H0V1" fill="none" stroke="var(--plan-grid)" stroke-width=".03"/></pattern></defs>';
+  s+='<rect x="0" y="0" width="'+f.w+'" height="'+f.h+'" fill="url(#g1)"/>';
+  f.rooms.forEach(function(r){
+    if(!r.poly) return;
+    var bb=r.bb, lx=r.label?r.label[0]:(bb.x0+bb.x1)/2, ly=r.label?r.label[1]:(bb.y0+bb.y1)/2;
+    var nfs=fs*(r.fsx||1)*(r.one?.62:1), n=roomActivity(r.id);
+    var avail=(r.vertical?(bb.y1-bb.y0):(bb.x1-bb.x0))*.86, chars=r.name.length+(r.one||r.vertical?9:0);
+    if(chars*.58*nfs>avail) nfs=avail/(chars*.58);
+    if(!r.one && !r.vertical && nfs*2.3>(bb.y1-bb.y0)) nfs=(bb.y1-bb.y0)/2.3;
+    var afs=nfs*.72;
+    var txt;
+    if(r.vertical){
+      txt='<text class="rn" x="'+lx+'" y="'+ly+'" font-size="'+(nfs*.8)+'" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90 '+lx+' '+ly+')">'+esc(r.name)+' · '+nl(r.area,1)+' m²</text>';
+    } else if(r.one){
+      txt='<text class="rn" x="'+lx+'" y="'+ly+'" font-size="'+nfs+'" text-anchor="middle" dominant-baseline="middle">'+esc(r.name)+'<tspan class="ra" font-weight="400"> · '+nl(r.area,1)+' m²</tspan></text>';
+    } else {
+      txt='<text class="rn" x="'+lx+'" y="'+(ly-nfs*.15)+'" font-size="'+nfs+'" text-anchor="middle">'+esc(r.name)+'</text>'+
+          '<text class="ra" x="'+lx+'" y="'+(ly+afs*1.25)+'" font-size="'+afs+'" text-anchor="middle">'+nl(r.area,1)+' m²</text>';
+    }
+    var badge="";
+    if(n){
+      var rr=fs*.42, bx=r.badge?r.badge[0]:bb.x1-rr-.18, by=r.badge?r.badge[1]:(bb.y1-bb.y0<2?(bb.y0+bb.y1)/2:bb.y0+rr+.18);
+      badge='<g class="badge"><circle cx="'+bx+'" cy="'+by+'" r="'+rr+'"/><text x="'+bx+'" y="'+by+'" font-size="'+(rr*1.05)+'" text-anchor="middle" dominant-baseline="central">'+n+'</text></g>';
+    }
+    s+='<g class="room k-'+r.kind+(state.room===r.id?' sel':'')+'" data-room="'+r.id+'" tabindex="0" role="button" aria-label="'+esc(r.name)+', '+nl(r.area,1)+' vierkante meter, '+n+' bijdragen">'+
+       '<polygon points="'+r.poly.map(function(p){return p.join(",");}).join(" ")+'"/>'+txt+badge+'</g>';
+  });
+  s+='<rect class="wall" x="0" y="0" width="'+f.w+'" height="'+f.h+'"/>';
+  s+=f.extras();
+  // maatvoering
+  var dy=f.h+(f.id==="bg"?5.7:0.9);
+  s+='<path class="dim" d="M0 '+(dy-.2)+'v.4M'+f.w+' '+(dy-.2)+'v.4M0 '+dy+'H'+f.w+'"/><text class="dimt" x="'+(f.w/2)+'" y="'+(dy+.65*Math.max(fs,.6))+'" font-size="'+(.5*Math.max(fs,.6))+'" text-anchor="middle">'+nl(f.w,2)+' m</text>';
+  var dx=-1.0;
+  s+='<path class="dim" d="M'+(dx-.2)+' 0h.4M'+(dx-.2)+' '+f.h+'h.4M'+dx+' 0V'+f.h+'"/><text class="dimt" x="'+(dx-.3)+'" y="'+(f.h/2)+'" font-size="'+(.5*Math.max(fs,.6))+'" text-anchor="middle" transform="rotate(-90 '+(dx-.3)+' '+(f.h/2)+')">'+nl(f.h,2)+' m</text>';
+  if(f.street){ s+='<text class="dimt" x="'+(f.w/2)+'" y="'+(bottom-.25)+'" font-size="'+(.42*Math.max(fs,.7))+'" text-anchor="middle" letter-spacing=".08">STRAATZIJDE · HENDRIK FIGEEWEG</text>'; }
+  var svg=$("#plan");
+  svg.setAttribute("viewBox",left+" "+top+" "+(right-left)+" "+(bottom-top));
+  svg.innerHTML=s;
+  $("#plan-desc").textContent=f.desc;
+  var kinds={}; f.rooms.forEach(function(r){ if(r.kind) kinds[r.kind]=1; });
+  $("#legend").innerHTML=Object.keys(kinds).map(function(k){ return '<span><i style="background:var(--k-'+k+')"></i>'+KINDS[k]+'</span>'; }).join("");
+  $("#room-chips").innerHTML=f.rooms.map(function(r){
+    var n=roomActivity(r.id);
+    return '<button class="chip" type="button" data-room="'+r.id+'" aria-pressed="'+(state.room===r.id)+'">'+esc(r.name)+(n?' <span class="n">'+n+'</span>':'')+'</button>';
+  }).join("");
+}
+
+function renderRoomHead(){
+  var r=ROOMS[state.room], f=floorOf(r.floor), tops=topFuncties(r.id).slice(0,4);
+  var meta=[];
+  if(r.area){ meta.push(nl(r.area,1)+" m²"); if(r.poly.length===4) meta.push(nl(r.bb.x1-r.bb.x0,2)+" × "+nl(r.bb.y1-r.bb.y0,2)+" m"); }
+  if(r.kind) meta.push("nu: "+KINDS[r.kind].toLowerCase());
+  $("#room-head").innerHTML='<div class="eyebrow">'+esc(f.name)+(r.general?'':' · ruimte')+'</div><h2>'+esc(r.name)+'</h2>'+
+    (meta.length?'<div class="meta">'+meta.map(function(m){return '<span>'+esc(m)+'</span>';}).join("")+'</div>':'')+
+    (r.note?'<p class="note">'+esc(r.note)+'</p>':'')+
+    (tops.length?'<div class="consensus">Meest genoemd: '+tops.map(function(t){ return '<span class="pill">'+esc(t.label)+' <small>'+t.n+(t.v?' · +'+t.v:'')+'</small></span>'; }).join("")+'</div>':'');
+}
+
+var ICON_UP='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v11H3V10h4zM7 10l4-8a3 3 0 0 1 3 3v4h6a2 2 0 0 1 2 2.3l-1.4 8A2 2 0 0 1 18.6 21H7"/></svg>';
+var ICON_CMT='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
+
+function actions(p, withThread){
+  var v=votesFor(p.id), c=commentsFor(p.id).length, mine=me&&p.author_pid===me.pid;
+  var voters=v.map(function(x){return x.author;}).join(", ");
+  return '<button class="act'+(iVoted(p.id)?' on':'')+'" type="button" data-vote="'+p.id+'" title="'+esc(voters?"Eens: "+voters:"Eens met dit idee")+'">'+ICON_UP+' Eens'+(v.length?' · '+v.length:'')+'</button>'+
+    (withThread?'<button class="act" type="button" data-thread="'+p.id+'" aria-expanded="'+!!state.openThreads[p.id]+'">'+ICON_CMT+' '+(c?c+' reactie'+(c===1?'':'s'):'Reageer')+'</button>':'')+
+    (mine?'<button class="act del" type="button" data-del="'+p.id+'">Verwijder</button>':'');
+}
+function commentHtml(c){
+  var mine=me&&c.author_pid===me.pid;
+  return '<div class="cmt">'+avatar(c.author,24)+'<div class="body"><div class="who"><b>'+esc(c.author)+'</b> · '+ago(c.created_at)+
+    (mine?' · <button class="act del" style="padding:0 4px" type="button" data-del="'+c.id+'">verwijder</button>':'')+'</div><p>'+esc(c.body.text)+'</p></div></div>';
+}
+function threadHtml(parentId, room, placeholder){
+  var list = parentId ? commentsFor(parentId) : roomComments(room);
+  var key = parentId || ("room:"+room);
+  return list.map(commentHtml).join("")+
+    '<form class="cmt-form" data-cform="'+esc(key)+'"><textarea id="c-'+esc(key.replace(/[^a-z0-9-]/gi,""))+'" maxlength="2000" placeholder="'+esc(placeholder||"Schrijf een reactie…")+'" data-draft="'+esc(key)+'">'+esc(state.drafts[key]||"")+'</textarea><button class="btn sm" type="submit">Plaats</button></form>';
+}
+function ideaHtml(p){
+  var b=p.body||{};
+  var rows=[["Wat erin",b.inhoud],["Indeling",b.indeling],["Materialen",b.materiaal],["Sfeer",b.sfeer]].filter(function(x){return x[1]&&String(x[1]).trim();});
+  return '<article class="idea"><div class="idea-top"><h4>'+esc(b.functie||"Idee")+'</h4></div>'+
+    (rows.length?'<dl>'+rows.map(function(x){ return '<dt>'+x[0]+'</dt><dd>'+esc(x[1])+'</dd>'; }).join("")+'</dl>':'')+
+    (b.image_url?'<img class="pic" src="'+esc(b.image_url)+'" alt="" loading="lazy" data-zoom="'+esc(b.image_url)+'">':'')+
+    '<div class="byline">'+avatar(p.author,22)+'<b>'+esc(p.author)+'</b><span>'+ago(p.created_at)+'</span><span class="sp"></span>'+actions(p,true)+'</div>'+
+    (state.openThreads[p.id]?'<div class="thread">'+threadHtml(p.id,null)+'</div>':'')+
+    '</article>';
+}
+function renderRoomLists(){
+  var ideas=ideasFor(state.room).sort(byScore);
+  $("#room-ideas").innerHTML = ideas.length ? ideas.map(ideaHtml).join("") :
+    '<div class="empty">Nog geen ideeën voor deze ruimte. Wat zou jij hier willen?</div>';
+  $("#room-thread").innerHTML = '<div class="thread" style="border:0;margin:0;padding:0">'+threadHtml(null,state.room,"Vraag, opmerking of reactie over deze ruimte…")+'</div>';
+}
+
+// ---------- rendering: moodboard ----------
+function moods(){ return posts.filter(function(p){ return p.kind==="mood"; }); }
+function renderMood(){
+  var all=moods(), cats=["Alle"].concat(MOOD_CATS.filter(function(c){ return all.some(function(m){return m.body.cat===c;}); }));
+  if(cats.indexOf(state.moodCat)<0) state.moodCat="Alle";
+  $("#mood-filters").innerHTML=cats.map(function(c){
+    var n=c==="Alle"?all.length:all.filter(function(m){return m.body.cat===c;}).length;
+    return '<button class="chip" type="button" data-cat="'+esc(c)+'" aria-pressed="'+(state.moodCat===c)+'">'+esc(c)+' <span class="n">'+n+'</span></button>';
+  }).join("");
+  var list=all.filter(function(m){ return state.moodCat==="Alle"||m.body.cat===state.moodCat; }).sort(byScore);
+  $("#mood-grid").innerHTML = list.length ? list.map(function(m){
+    var v=votesFor(m.id).length, c=commentsFor(m.id).length, room=m.room&&ROOMS[m.room];
+    return '<button class="mcard" type="button" data-mood="'+m.id+'"><img src="'+esc(m.body.image_url)+'" alt="'+esc(m.body.caption||"Inspiratiebeeld")+'" loading="lazy">'+
+      '<div class="mc-b"><div class="tag">'+esc(m.body.cat||"Overig")+(room?' · '+esc(room.name):'')+'</div>'+
+      (m.body.caption?'<p class="cap">'+esc(m.body.caption)+'</p>':'')+
+      '<div class="mc-meta">'+avatar(m.author,20)+'<span>'+esc(m.author)+'</span><span class="sp"></span>'+(v?'<span>'+v+' eens</span>':'')+(c?'<span>'+c+' reactie'+(c===1?'':'s')+'</span>':'')+'</div></div></button>';
+  }).join("") : '<div class="empty" style="column-span:all">Het moodboard is nog leeg. Voeg de eerste foto toe: een kantoor, materiaal, lamp of sfeer die je aanspreekt.</div>';
+  if(state.lightbox) renderLightbox();
+}
+function renderLightbox(){
+  var m=posts.filter(function(p){return p.id===state.lightbox;})[0];
+  if(!m){ closeLightbox(); return; }
+  var room=m.room&&ROOMS[m.room];
+  if($("#lb-img").getAttribute("src")!==m.body.image_url) $("#lb-img").src=m.body.image_url;
+  $("#lb-side").innerHTML='<div class="tag">'+esc(m.body.cat||"Overig")+(room?' · '+esc(floorOf(room.floor).name)+' · '+esc(room.name):'')+'</div>'+
+    (m.body.caption?'<p style="margin:0;font-size:15px;white-space:pre-wrap">'+esc(m.body.caption)+'</p>':'')+
+    (m.body.link?'<a href="'+esc(m.body.link)+'" target="_blank" rel="noopener noreferrer" style="font-size:13px;overflow-wrap:anywhere">'+esc(m.body.link)+'</a>':'')+
+    '<div class="byline" style="margin-top:0">'+avatar(m.author,22)+'<b>'+esc(m.author)+'</b><span>'+ago(m.created_at)+'</span></div>'+
+    '<div class="byline" style="margin-top:0">'+actions(m,false)+'</div>'+
+    '<div class="thread">'+threadHtml(m.id,null)+'</div>';
+}
+function openLightbox(id){ state.lightbox=id; $("#lightbox").hidden=false; renderLightbox(); }
+function closeLightbox(){ state.lightbox=null; $("#lightbox").hidden=true; $("#lb-img").removeAttribute("src"); }
+
+// ---------- rendering: overzicht ----------
+function renderOverview(){
+  var ideas=posts.filter(function(p){return p.kind==="room_idea";}), ms=moods(), cs=posts.filter(function(p){return p.kind==="comment";});
+  var people={};
+  function P(name){ var k=name.trim(); if(!people[k]) people[k]={name:k,i:0,m:0,c:0,v:0}; return people[k]; }
+  ideas.forEach(function(p){P(p.author).i++;}); ms.forEach(function(p){P(p.author).m++;}); cs.forEach(function(p){P(p.author).c++;}); votes.forEach(function(v){P(v.author).v++;});
+  var plist=Object.keys(people).map(function(k){return people[k];}).sort(function(a,b){ return (b.i+b.m+b.c)-(a.i+a.m+a.c) || b.v-a.v; });
+  $("#kpis").innerHTML=[[ideas.length,"ideeën voor ruimtes"],[ms.length,"moodboard-beelden"],[cs.length,"reacties"],[plist.length,"deelnemers"]].map(function(k){ return '<div class="kpi"><b>'+k[0]+'</b><span>'+k[1]+'</span></div>'; }).join("");
+  var h='<thead><tr><th>Ruimte</th><th>Meest genoemd</th><th class="num">Ideeën</th><th class="num">Reacties</th><th class="num">Eens</th></tr></thead><tbody>';
+  FLOORS.forEach(function(f){
+    h+='<tr class="fl"><td colspan="5">'+esc(f.name)+'</td></tr>';
+    f.rooms.forEach(function(r){
+      var id=ideasFor(r.id), c=roomComments(r.id).length+id.reduce(function(s,p){return s+commentsFor(p.id).length;},0), v=id.reduce(function(s,p){return s+votesFor(p.id).length;},0), t=topFuncties(r.id)[0];
+      h+='<tr class="rowlink" data-goto="'+r.id+'"><td>'+esc(r.name)+'</td><td>'+(t?esc(t.label):'<span style="color:var(--muted)">–</span>')+'</td><td class="num">'+id.length+'</td><td class="num">'+c+'</td><td class="num">'+v+'</td></tr>';
+    });
+  });
+  $("#ov-rooms").innerHTML=h+'</tbody>';
+  $("#ov-people").innerHTML='<thead><tr><th>Naam</th><th class="num">Ideeën</th><th class="num">Mood</th><th class="num">Reacties</th><th class="num">Eens</th></tr></thead><tbody>'+
+    (plist.length?plist.map(function(p){ return '<tr><td><span style="display:inline-flex;align-items:center;gap:8px">'+avatar(p.name,22)+esc(p.name)+'</span></td><td class="num">'+p.i+'</td><td class="num">'+p.m+'</td><td class="num">'+p.c+'</td><td class="num">'+p.v+'</td></tr>'; }).join(""):'<tr><td colspan="5" style="color:var(--muted)">Nog niemand. Wees de eerste!</td></tr>')+'</tbody>';
+}
+function exportCsv(){
+  var byId={}; posts.forEach(function(p){byId[p.id]=p;});
+  var cols=["type","verdieping","ruimte","naam","datum","functie","wat_erin","indeling","materialen","sfeer","tekst","categorie","afbeelding","link","eens_aantal","eens_door","reactie_op_type","reactie_op_id","id"];
+  var TYPE={room_idea:"idee",mood:"moodboard",comment:"reactie"};
+  var rows=posts.slice().sort(byDate).map(function(p){
+    var b=p.body||{}, r=p.room&&ROOMS[p.room], parent=p.parent_id&&byId[p.parent_id];
+    if(!r && parent && parent.room) r=ROOMS[parent.room];
+    var v=votesFor(p.id);
+    return [TYPE[p.kind]||p.kind, r?floorOf(r.floor).name:"", r?r.name:"", p.author, new Date(p.created_at).toLocaleString("nl-NL"),
+      b.functie, b.inhoud, b.indeling, b.materiaal, b.sfeer, b.text||b.caption, b.cat, b.image_url, b.link, v.length, v.map(function(x){return x.author;}).join("; "),
+      parent?(TYPE[parent.kind]||""):"", p.parent_id||"", p.id];
+  });
+  var csv=[cols].concat(rows).map(function(r){ return r.map(function(c){ c=c==null?"":String(c); return /[";\n,]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c; }).join(";"); }).join("\r\n");
+  var a=document.createElement("a"); a.href=URL.createObjectURL(new Blob(["﻿"+csv],{type:"text/csv;charset=utf-8"}));
+  a.download="kantoor-figeeweg-input-"+new Date().toISOString().slice(0,10)+".csv"; document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },500);
+}
+
+// ---------- render orchestration ----------
+var pendingRender=false;
+function typingInList(){ var a=document.activeElement; return a && a.closest && a.closest(".list") && /TEXTAREA|INPUT/.test(a.tagName); }
+function renderData(){
+  if(typingInList()){ pendingRender=true; renderCounts(); return; }
+  pendingRender=false;
+  renderCounts(); renderFloorbar(); renderPlan(); renderRoomHead(); renderRoomLists(); renderMood(); renderOverview();
+}
+function renderCounts(){
+  $("#n-plan").textContent=posts.filter(function(p){return p.kind==="room_idea";}).length;
+  $("#n-mood").textContent=moods().length;
+}
+document.addEventListener("focusout",function(){ setTimeout(function(){ if(pendingRender && !typingInList()) renderData(); },50); });
+
+function setTab(t, push){
+  state.tab=t;
+  document.querySelectorAll(".tab").forEach(function(b){ b.setAttribute("aria-selected", b.dataset.tab===t); });
+  $("#v-plan").hidden=t!=="plan"; $("#v-mood").hidden=t!=="mood"; $("#v-overview").hidden=t!=="overview";
+  if(push!==false){ try{ history.replaceState(null,"","#"+(t==="plan"?state.room:t==="mood"?"moodboard":"overzicht")); }catch(e){} }
+}
+function selectRoom(id, scroll){
+  var r=ROOMS[id]; if(!r) return;
+  state.room=id; state.floor=r.floor; closeIdeaForm();
+  renderFloorbar(); renderPlan(); renderRoomHead(); renderRoomLists();
+  try{ history.replaceState(null,"","#"+id); }catch(e){}
+  if(scroll && window.matchMedia("(max-width:900px)").matches) $("#room-panel").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+// ---------- idee-formulier ----------
+var ideaFile=null;
+function openIdeaForm(){ if(!requireMe()) return; $("#idea-form").hidden=false; $("#idea-open").hidden=true; $("#f-functie").focus(); }
+function closeIdeaForm(){ $("#idea-form").hidden=true; $("#idea-open").hidden=false; $("#idea-form").reset(); $("#f-thumb").innerHTML=""; $("#idea-err").textContent=""; ideaFile=null; }
+$("#f-quick").innerHTML=FUNCTIES.map(function(f){ return '<button type="button" data-q="'+esc(f)+'">'+esc(f)+'</button>'; }).join("");
+$("#f-quick").addEventListener("click",function(e){ var b=e.target.closest("[data-q]"); if(b){ $("#f-functie").value=b.dataset.q; } });
+$("#idea-open").addEventListener("click",openIdeaForm);
+$("#idea-cancel").addEventListener("click",closeIdeaForm);
+$("#f-foto").addEventListener("change",function(e){ ideaFile=e.target.files[0]||null; $("#f-thumb").innerHTML=ideaFile?'<img src="'+URL.createObjectURL(ideaFile)+'" alt="">':""; });
+$("#idea-form").addEventListener("submit",function(e){
+  e.preventDefault(); if(!requireMe()) return;
+  var body={ functie:$("#f-functie").value.trim(), inhoud:$("#f-inhoud").value.trim(), indeling:$("#f-indeling").value.trim(), materiaal:$("#f-materiaal").value.trim(), sfeer:$("#f-sfeer").value.trim() };
+  if(!body.functie && !body.inhoud && !body.indeling && !body.materiaal && !body.sfeer && !ideaFile){ $("#idea-err").textContent="Vul minstens één veld in."; return; }
+  var btn=$("#idea-submit"); btn.disabled=true; btn.textContent="Bezig…"; $("#idea-err").textContent="";
+  var room=ROOMS[state.room];
+  (ideaFile?uploadImage(ideaFile):Promise.resolve(null)).then(function(url){
+    if(url) body.image_url=url;
+    return insertPost({ kind:"room_idea", floor:room.floor, room:room.id, body:body });
+  }).then(function(){ closeIdeaForm(); toast("Idee geplaatst"); })
+    .catch(function(err){ $("#idea-err").textContent="Opslaan mislukt: "+(err.message||err)+". Probeer het opnieuw."; })
+    .then(function(){ btn.disabled=false; btn.textContent="Plaats idee"; });
+});
+
+// ---------- moodboard-formulier ----------
+var moodFiles=[];
+$("#m-cat").innerHTML=MOOD_CATS.map(function(c){ return '<option>'+esc(c)+'</option>'; }).join("");
+$("#m-room").innerHTML='<option value="">— geen specifieke ruimte —</option>'+FLOORS.map(function(f){ return '<optgroup label="'+esc(f.name)+'">'+f.rooms.map(function(r){ return '<option value="'+r.id+'">'+esc(r.name)+'</option>'; }).join("")+'</optgroup>'; }).join("");
+function showMoodThumbs(){ $("#m-thumbs").innerHTML=moodFiles.map(function(f){ return '<img src="'+URL.createObjectURL(f)+'" alt="">'; }).join(""); }
+function openMoodForm(){ if(!requireMe()) return; $("#mood-form").hidden=false; $("#mood-open").hidden=true; }
+function closeMoodForm(){ $("#mood-form").hidden=true; $("#mood-open").hidden=false; $("#mood-form").reset(); moodFiles=[]; showMoodThumbs(); $("#mood-err").textContent=""; }
+$("#mood-open").addEventListener("click",openMoodForm);
+$("#mood-cancel").addEventListener("click",closeMoodForm);
+$("#m-files").addEventListener("change",function(e){ moodFiles=[].slice.call(e.target.files||[]); showMoodThumbs(); });
+document.addEventListener("paste",function(e){
+  if(state.tab!=="mood") return;
+  var items=[].slice.call((e.clipboardData&&e.clipboardData.files)||[]).filter(function(f){return /^image\//.test(f.type);});
+  if(!items.length) return;
+  e.preventDefault(); openMoodForm(); if(!me) return;
+  moodFiles=moodFiles.concat(items); showMoodThumbs();
+});
+$("#mood-form").addEventListener("submit",function(e){
+  e.preventDefault(); if(!requireMe()) return;
+  var url=$("#m-url").value.trim(), link=$("#m-link").value.trim();
+  if(!moodFiles.length && !url){ $("#mood-err").textContent="Kies een foto of plak een afbeeldingslink."; return; }
+  if(url && !/^https?:\/\//i.test(url)){ $("#mood-err").textContent="De afbeeldingslink moet met https:// beginnen."; return; }
+  var roomId=$("#m-room").value||null, base={ caption:$("#m-cap").value.trim(), cat:$("#m-cat").value, link:/^https?:\/\//i.test(link)?link:"" };
+  var btn=$("#mood-submit"); btn.disabled=true; btn.textContent="Uploaden…"; $("#mood-err").textContent="";
+  var jobs=moodFiles.map(function(f){ return uploadImage(f); });
+  if(url) jobs.push(Promise.resolve(url));
+  Promise.all(jobs).then(function(urls){
+    return Promise.all(urls.map(function(u){
+      return insertPost({ kind:"mood", floor:roomId?ROOMS[roomId].floor:null, room:roomId, body:Object.assign({image_url:u},base) });
+    }));
+  }).then(function(r){ closeMoodForm(); toast(r.length>1?r.length+" beelden toegevoegd":"Toegevoegd aan het moodboard"); })
+    .catch(function(err){ $("#mood-err").textContent="Uploaden mislukt: "+(err.message||err)+"."; })
+    .then(function(){ btn.disabled=false; btn.textContent="Zet op moodboard"; });
+});
+
+// ---------- gedelegeerde events ----------
+document.addEventListener("click",function(e){
+  var t;
+  if((t=e.target.closest(".tab"))) return setTab(t.dataset.tab);
+  if((t=e.target.closest("[data-floor]"))){ var f=floorOf(t.dataset.floor); return selectRoom((f.rooms.filter(function(r){return r.id===state.room;})[0]||f.rooms[1]).id); }
+  if((t=e.target.closest("[data-room]"))) return selectRoom(t.dataset.room, true);
+  if((t=e.target.closest("[data-goto]"))){ setTab("plan"); selectRoom(t.dataset.goto); window.scrollTo({top:0,behavior:"smooth"}); return; }
+  if((t=e.target.closest("[data-vote]"))) return toggleVote(t.dataset.vote);
+  if((t=e.target.closest("[data-thread]"))){ var id=t.dataset.thread; state.openThreads[id]=!state.openThreads[id]; renderRoomLists(); if(state.openThreads[id]){ var ta=document.querySelector('[data-draft="'+id+'"]'); if(ta && me) ta.focus(); } return; }
+  if((t=e.target.closest("[data-del]"))){
+    if(!t.classList.contains("arm")){ t.classList.add("arm"); var old=t.textContent; t.textContent="Zeker?"; setTimeout(function(){ if(t.isConnected){ t.classList.remove("arm"); t.textContent=old; } },3000); return; }
+    return deletePost(t.dataset.del);
+  }
+  if((t=e.target.closest("[data-cat]"))){ state.moodCat=t.dataset.cat; return renderMood(); }
+  if((t=e.target.closest("[data-mood]"))) return openLightbox(t.dataset.mood);
+  if((t=e.target.closest("[data-zoom]"))){ window.open(t.dataset.zoom,"_blank","noopener"); return; }
+  if(e.target.id==="lightbox" || e.target.closest("#lb-close")) return closeLightbox();
+});
+document.addEventListener("keydown",function(e){
+  if(e.key==="Escape"){ if(!$("#lightbox").hidden) closeLightbox(); else if(!$("#gate").hidden) $("#gate").hidden=true; }
+  var r=e.target.closest && e.target.closest(".room");
+  if(r && (e.key==="Enter"||e.key===" ")){ e.preventDefault(); selectRoom(r.dataset.room,true); }
+  if(e.target.matches && e.target.matches(".cmt-form textarea") && e.key==="Enter" && (e.metaKey||e.ctrlKey)){ e.preventDefault(); e.target.form.requestSubmit(); }
+});
+document.addEventListener("input",function(e){ var k=e.target.dataset && e.target.dataset.draft; if(k) state.drafts[k]=e.target.value; });
+document.addEventListener("focusin",function(e){ if(e.target.matches && e.target.matches(".cmt-form textarea") && !me) { e.target.blur(); showGate(); } });
+document.addEventListener("submit",function(e){
+  var form=e.target.closest("[data-cform]"); if(!form) return;
+  e.preventDefault(); if(!requireMe()) return;
+  var key=form.dataset.cform, ta=form.querySelector("textarea"), text=ta.value.trim(); if(!text) return;
+  var row={ kind:"comment", body:{text:text} };
+  if(key.indexOf("room:")===0){ var r=ROOMS[key.slice(5)]; row.room=r.id; row.floor=r.floor; }
+  else { var parent=posts.filter(function(p){return p.id===key;})[0]; row.parent_id=key; if(parent){ row.room=parent.room; row.floor=parent.floor; } }
+  var btn=form.querySelector("button"); btn.disabled=true;
+  ta.blur();
+  insertPost(row).then(function(){ state.drafts[key]=""; renderData(); })
+    .catch(function(err){ toast("Reactie opslaan mislukt"); console.warn(err); btn.disabled=false; });
+});
+
+// ---------- naam ----------
+function renderMe(){
+  $("#me-nm").textContent = me ? me.name : "Wie ben jij?";
+  var av=$("#me-av"); av.textContent = me ? initials(me.name) : "?"; av.style.background = me ? avColor(me.name) : "var(--muted)";
+}
+function showGate(){ $("#gate").hidden=false; $("#gate-name").value=me?me.name:""; setTimeout(function(){ $("#gate-name").focus(); },30); }
+$("#gate-form").addEventListener("submit",function(e){
+  e.preventDefault(); var n=$("#gate-name").value.trim().replace(/\s+/g," ");
+  if(n.length<2){ $("#gate-name").focus(); return; }
+  me = { name:n, pid:(me&&me.pid)||uid() }; lsSet("fl_office_me",JSON.stringify(me));
+  $("#gate").hidden=true; renderMe(); renderData(); toast("Hoi "+n.split(" ")[0]+"!");
+});
+$("#gate-skip").addEventListener("click",function(){ $("#gate").hidden=true; });
+$("#me-chip").addEventListener("click",showGate);
+$("#csv-btn").addEventListener("click",exportCsv);
+
+// ---------- thema ----------
+var th=lsGet("fl_office_theme"); if(th) document.documentElement.setAttribute("data-theme",th);
+$("#theme-btn").addEventListener("click",function(){
+  var cur=document.documentElement.getAttribute("data-theme") || (matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");
+  var nx=cur==="dark"?"light":"dark"; document.documentElement.setAttribute("data-theme",nx); lsSet("fl_office_theme",nx);
+});
+
+// ---------- start ----------
+var h=(location.hash||"").slice(1);
+if(ROOMS[h]){ state.room=h; state.floor=ROOMS[h].floor; }
+renderMe(); renderData();
+if(h==="moodboard") setTab("mood",false); else if(h==="overzicht") setTab("overview",false);
+initDb();
+if(!me) setTimeout(showGate,600);
+})();
+</script>
+</body>
+</html>

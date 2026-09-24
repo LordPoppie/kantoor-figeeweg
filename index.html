@@ -255,6 +255,33 @@ tr.rowlink:hover td{background:var(--surface-2)}
 .conn i{width:7px;height:7px;border-radius:9px;background:#9aa4b5;display:inline-block}
 .conn.ok i{background:#22a65a}
 .conn.bad i{background:var(--danger)}
+.photos{display:flex;gap:8px;overflow-x:auto;margin:14px -22px 0;padding:0 22px 4px;scroll-snap-type:x mandatory}
+.photo{position:relative;flex:none;width:210px;scroll-snap-align:start;margin:0}
+.photo button.ph{appearance:none;border:0;padding:0;background:none;cursor:zoom-in;display:block;width:100%}
+.photo img{width:210px;height:140px;object-fit:cover;border-radius:10px;display:block;border:1px solid var(--border)}
+.photo figcaption{font-size:12px;color:var(--muted);margin-top:4px;overflow-wrap:anywhere}
+.photo .x{position:absolute;top:6px;right:6px;background:rgba(6,14,30,.7);color:#fff;border:0;border-radius:999px;padding:3px 9px;font-size:12px;cursor:pointer}
+.photo .x.arm{background:var(--danger)}
+.photos-empty{margin-top:12px;font-size:12.5px;color:var(--muted);border:1px dashed var(--border-strong);border-radius:10px;padding:10px 12px}
+.admin-box{margin-top:12px;border:1px solid var(--accent);background:var(--accent-soft);border-radius:10px;padding:12px}
+.admin-box .field{margin-bottom:8px}
+.sublet{margin-top:14px;display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:var(--surface-2);cursor:pointer}
+.sublet input{width:18px;height:18px;margin:1px 0 0;accent-color:var(--accent);flex:none;cursor:pointer}
+.sublet b{font-size:13.5px;display:block}
+.sublet span{font-size:12.5px;color:var(--muted)}
+.sublet.on{border-color:var(--accent);background:var(--accent-soft)}
+details.more{margin-bottom:12px;border:1px solid var(--border);border-radius:10px;padding:0 12px}
+details.more summary{cursor:pointer;padding:10px 0;font-size:13px;font-weight:600;color:var(--text-2)}
+details.more[open]{padding-bottom:4px}
+.idea .ideeen{margin:8px 0 0;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}
+.mcard.text{background:var(--accent-soft);border-color:transparent}
+.mcard.text .quote{padding:18px 16px 4px;font-size:17px;line-height:1.4;font-weight:600;letter-spacing:-.01em;white-space:pre-wrap;overflow-wrap:anywhere}
+.lb.noimg{grid-template-columns:1fr}
+.lb.noimg .lb-img{display:none}
+.lb-quote{font-size:20px;line-height:1.4;font-weight:700;letter-spacing:-.01em;white-space:pre-wrap;margin:0;padding-right:36px}
+.admin-pill{font:600 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;background:var(--accent);color:var(--on-accent);border:0;border-radius:999px;padding:5px 10px;cursor:pointer}
+footer.foot{padding-block:0 40px;font-size:12.5px;color:var(--muted);display:flex;gap:12px;flex-wrap:wrap}
+footer.foot button{appearance:none;background:none;border:0;padding:0;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:12.5px}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--text);color:var(--surface);padding:10px 16px;border-radius:10px;font-size:14px;font-weight:600;z-index:60;box-shadow:var(--shadow)}
 @media (prefers-reduced-motion: reduce){*{transition:none!important}}
 </style>
@@ -269,6 +296,7 @@ tr.rowlink:hover td{background:var(--surface-2)}
       <div class="brand-sep"></div>
       <div class="brand-title">Nieuw kantoor <span>· Hendrik Figeeweg 5C</span></div>
     </div>
+    <button class="admin-pill" id="admin-pill" type="button" hidden title="Beheermodus uitzetten">Beheer</button>
     <span class="conn" id="conn"><i></i><span>verbinden…</span></span>
     <button class="me-chip" id="me-chip" type="button" title="Naam wijzigen"><span class="avatar" id="me-av">?</span><span class="nm" id="me-nm">Wie ben jij?</span></button>
     <button class="icon-btn" id="theme-btn" type="button" aria-label="Licht of donker thema">
@@ -318,10 +346,16 @@ tr.rowlink:hover td{background:var(--surface-2)}
             <div class="sec-h"><h3>Ideeën voor deze ruimte</h3><button class="btn sm" id="idea-open" type="button">+ Idee toevoegen</button></div>
             <form id="idea-form" hidden autocomplete="off">
               <div class="field">
-                <label for="f-functie">Wat moet deze ruimte worden?</label>
+                <label for="f-functie">Wat moet deze ruimte functioneel worden?</label>
                 <input type="text" id="f-functie" maxlength="80" placeholder="Bijv. kantine, vergaderruimte, werkplaats…">
                 <div class="quick" id="f-quick"></div>
               </div>
+              <div class="field">
+                <label for="f-ideeen">Jouw ideeën</label>
+                <textarea id="f-ideeen" maxlength="3000" style="min-height:90px" placeholder="Hoe zie jij deze ruimte voor je? Wat moet je er kunnen doen?"></textarea>
+              </div>
+              <details class="more" id="f-more">
+              <summary>Meer details: inrichting, materialen, sfeer</summary>
               <div class="field">
                 <label for="f-inhoud">Wat moet erin komen te staan? <small>meubels, apparatuur, spullen</small></label>
                 <textarea id="f-inhoud" maxlength="2000" placeholder="Lange tafel voor 12, koffiemachine, bank, plantenbak…"></textarea>
@@ -340,6 +374,7 @@ tr.rowlink:hover td{background:var(--surface-2)}
                   <textarea id="f-sfeer" maxlength="1000" placeholder="Warm, industrieel, huiskamer, backstage…"></textarea>
                 </div>
               </div>
+              </details>
               <div class="field">
                 <label for="f-foto">Foto of schets <small>optioneel</small></label>
                 <div class="file-row"><input type="file" id="f-foto" accept="image/*"><div class="thumbs" id="f-thumb"></div></div>
@@ -368,10 +403,10 @@ tr.rowlink:hover td{background:var(--surface-2)}
       </div>
       <form class="panel mood-form" id="mood-form" hidden autocomplete="off">
         <div class="sec">
-          <div class="sec-h"><h3>Inspiratie toevoegen</h3><span class="hint">Tip: je kunt ook een afbeelding plakken (⌘V)</span></div>
+          <div class="sec-h"><h3>Inspiratie toevoegen</h3><span class="hint">Foto, tekst of allebei. Afbeelding plakken (⌘V) kan ook.</span></div>
           <div class="grid2">
             <div class="field">
-              <label for="m-files">Foto's uploaden</label>
+              <label for="m-files">Foto's uploaden <small>optioneel</small></label>
               <input type="file" id="m-files" accept="image/*" multiple>
               <div class="thumbs" id="m-thumbs" style="margin-top:6px"></div>
             </div>
@@ -381,7 +416,7 @@ tr.rowlink:hover td{background:var(--surface-2)}
             </div>
           </div>
           <div class="field">
-            <label for="m-cap">Wat spreekt je hierin aan?</label>
+            <label for="m-cap">Tekst <small>een idee, gevoel of wat je aanspreekt in de foto</small></label>
             <textarea id="m-cap" maxlength="1000" placeholder="De warme houten wanden met veel planten, voelt als een huiskamer…"></textarea>
           </div>
           <div class="grid2">
@@ -423,6 +458,17 @@ tr.rowlink:hover td{background:var(--surface-2)}
       </div>
     </section>
   </main>
+  <footer class="foot"><span>Fastlane · verhuizing Hendrik Figeeweg 5C</span><button type="button" id="admin-link">Beheer</button></footer>
+</div>
+
+<div class="modal" id="admin-gate" hidden>
+  <form class="modal-box gate" id="admin-form">
+    <div class="eyebrow">Beheer</div>
+    <h2>Beheermodus</h2>
+    <p>Met de beheercode kun je per ruimte foto's van de huidige situatie toevoegen en verwijderen.</p>
+    <div class="field"><label for="admin-code">Beheercode</label><input type="text" id="admin-code" autocomplete="off" spellcheck="false"></div>
+    <div class="form-actions"><button class="btn" type="submit">Aanzetten</button><button class="btn ghost" type="button" id="admin-cancel">Annuleren</button><span class="err" id="admin-err"></span></div>
+  </form>
 </div>
 
 <!-- naam-modal -->
@@ -440,7 +486,7 @@ tr.rowlink:hover td{background:var(--surface-2)}
 <div class="modal" id="lightbox" hidden>
   <div class="modal-box wide" style="position:relative">
     <button class="icon-btn lb-close" id="lb-close" type="button" aria-label="Sluiten"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-    <div class="lb">
+    <div class="lb" id="lb">
       <div class="lb-img"><img id="lb-img" alt=""></div>
       <div class="lb-side list" id="lb-side"></div>
     </div>
@@ -561,6 +607,7 @@ try{ me = JSON.parse(lsGet("fl_office_me")||"null"); }catch(e){}
 var posts = [], votes = [];
 var state = { tab:"plan", floor:"ev", room:"ev-keuken", moodCat:"Alle", openThreads:{}, drafts:{} };
 var sb = null, connected = false;
+var adminCode = lsGet("fl_office_admin") || null;
 
 function avColor(name){ var h=0; for(var i=0;i<name.length;i++) h=(h*31+name.charCodeAt(i))>>>0; return AV_COLORS[h%AV_COLORS.length]; }
 function initials(name){ var p=String(name||"?").trim().split(/\s+/); return ((p[0]||"?")[0]+(p.length>1?p[p.length-1][0]:"")).toUpperCase(); }
@@ -581,6 +628,8 @@ function toast(msg){ var t=document.createElement("div"); t.className="toast"; t
 function ideasFor(room){ return posts.filter(function(p){ return p.kind==="room_idea" && p.room===room; }); }
 function commentsFor(parentId){ return posts.filter(function(p){ return p.kind==="comment" && p.parent_id===parentId; }).sort(byDate); }
 function roomComments(room){ return posts.filter(function(p){ return p.kind==="comment" && !p.parent_id && p.room===room; }).sort(byDate); }
+function roomPhotos(room){ return posts.filter(function(p){ return p.kind==="room_photo" && p.room===room; }).sort(byDate); }
+function sublets(room){ return posts.filter(function(p){ return p.kind==="sublet" && p.room===room; }); }
 function votesFor(id){ return votes.filter(function(v){ return v.post_id===id; }); }
 function iVoted(id){ return me && votes.some(function(v){ return v.post_id===id && v.author_pid===me.pid; }); }
 function byDate(a,b){ return new Date(a.created_at)-new Date(b.created_at); }
@@ -736,7 +785,45 @@ function renderRoomHead(){
   $("#room-head").innerHTML='<div class="eyebrow">'+esc(f.name)+(r.general?'':' · ruimte')+'</div><h2>'+esc(r.name)+'</h2>'+
     (meta.length?'<div class="meta">'+meta.map(function(m){return '<span>'+esc(m)+'</span>';}).join("")+'</div>':'')+
     (r.note?'<p class="note">'+esc(r.note)+'</p>':'')+
-    (tops.length?'<div class="consensus">Meest genoemd: '+tops.map(function(t){ return '<span class="pill">'+esc(t.label)+' <small>'+t.n+(t.v?' · +'+t.v:'')+'</small></span>'; }).join("")+'</div>':'');
+    (tops.length?'<div class="consensus">Meest genoemd: '+tops.map(function(t){ return '<span class="pill">'+esc(t.label)+' <small>'+t.n+(t.v?' · +'+t.v:'')+'</small></span>'; }).join("")+'</div>':'')+
+    photosHtml(r)+subletHtml(r);
+}
+function photosHtml(r){
+  var ph=roomPhotos(r.id), h="";
+  if(ph.length){
+    h+='<div class="photos">'+ph.map(function(p){
+      return '<figure class="photo"><button class="ph" type="button" data-photo="'+p.id+'"><img src="'+esc(p.body.image_url)+'" alt="'+esc(p.body.caption||("Foto van "+r.name))+'" loading="lazy"></button>'+
+        (p.body.caption?'<figcaption>'+esc(p.body.caption)+'</figcaption>':'')+
+        (adminCode?'<button class="x" type="button" data-delphoto="'+p.id+'">Verwijder</button>':'')+'</figure>';
+    }).join("")+'</div>';
+  } else if(!r.general && !adminCode){
+    h+='<div class="photos-empty">Foto\'s van deze ruimte volgen nog.</div>';
+  }
+  if(adminCode){
+    h+='<form class="admin-box" id="photo-form"><div class="eyebrow" style="margin-bottom:8px">Beheer · foto\'s van '+esc(r.name)+'</div>'+
+      '<div class="field"><input type="file" id="p-files" accept="image/*" multiple></div>'+
+      '<div class="field"><input type="text" id="p-cap" maxlength="200" placeholder="Bijschrift (optioneel), bijv. kijkrichting naar de straat"></div>'+
+      '<div class="form-actions"><button class="btn sm" type="submit" id="p-submit">Foto\'s toevoegen</button><span class="err" id="p-err"></span></div></form>';
+  }
+  return h;
+}
+function subletHtml(r){
+  var s=sublets(r.id), mine=me && s.some(function(x){return x.author_pid===me.pid;});
+  var names=s.map(function(x){return x.author;});
+  return '<label class="sublet'+(mine?' on':'')+'"><input type="checkbox" id="sublet-cb" data-sublet="'+r.id+'"'+(mine?' checked':'')+'><span><b>Ik zou '+(r.general?'deze verdieping':'deze ruimte')+' onderverhuren</b>'+
+    '<span>'+(s.length?s.length+' '+(s.length===1?'persoon':'personen')+': '+esc(names.join(", ")):'Nog niemand aangevinkt')+'</span></span></label>';
+}
+function toggleSublet(room, on){
+  if(!requireMe()){ renderRoomHead(); return; }
+  var r=ROOMS[room];
+  if(on){
+    var tmp={ id:"tmp-"+uid(), kind:"sublet", room:room, floor:r.floor, author:me.name, author_pid:me.pid, body:{}, created_at:new Date().toISOString() };
+    posts.push(tmp); renderData();
+    sb.from("office_posts").insert({ kind:"sublet", room:room, floor:r.floor, author:me.name, author_pid:me.pid, body:{} }).then(function(res){ if(res.error && res.error.code!=="23505") toast("Opslaan mislukt"); load(); });
+  } else {
+    posts=posts.filter(function(p){ return !(p.kind==="sublet" && p.room===room && p.author_pid===me.pid); }); renderData();
+    sb.from("office_posts").delete().eq("kind","sublet").eq("room",room).eq("author_pid",me.pid).then(function(res){ if(res.error) toast("Opslaan mislukt"); load(); });
+  }
 }
 
 var ICON_UP='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v11H3V10h4zM7 10l4-8a3 3 0 0 1 3 3v4h6a2 2 0 0 1 2 2.3l-1.4 8A2 2 0 0 1 18.6 21H7"/></svg>';
@@ -764,6 +851,7 @@ function ideaHtml(p){
   var b=p.body||{};
   var rows=[["Wat erin",b.inhoud],["Indeling",b.indeling],["Materialen",b.materiaal],["Sfeer",b.sfeer]].filter(function(x){return x[1]&&String(x[1]).trim();});
   return '<article class="idea"><div class="idea-top"><h4>'+esc(b.functie||"Idee")+'</h4></div>'+
+    (b.ideeen?'<p class="ideeen">'+esc(b.ideeen)+'</p>':'')+
     (rows.length?'<dl>'+rows.map(function(x){ return '<dt>'+x[0]+'</dt><dd>'+esc(x[1])+'</dd>'; }).join("")+'</dl>':'')+
     (b.image_url?'<img class="pic" src="'+esc(b.image_url)+'" alt="" loading="lazy" data-zoom="'+esc(b.image_url)+'">':'')+
     '<div class="byline">'+avatar(p.author,22)+'<b>'+esc(p.author)+'</b><span>'+ago(p.created_at)+'</span><span class="sp"></span>'+actions(p,true)+'</div>'+
@@ -789,20 +877,29 @@ function renderMood(){
   var list=all.filter(function(m){ return state.moodCat==="Alle"||m.body.cat===state.moodCat; }).sort(byScore);
   $("#mood-grid").innerHTML = list.length ? list.map(function(m){
     var v=votesFor(m.id).length, c=commentsFor(m.id).length, room=m.room&&ROOMS[m.room];
-    return '<button class="mcard" type="button" data-mood="'+m.id+'"><img src="'+esc(m.body.image_url)+'" alt="'+esc(m.body.caption||"Inspiratiebeeld")+'" loading="lazy">'+
+    var img=m.body.image_url;
+    return '<button class="mcard'+(img?'':' text')+'" type="button" data-mood="'+m.id+'">'+
+      (img?'<img src="'+esc(img)+'" alt="'+esc(m.body.caption||"Inspiratiebeeld")+'" loading="lazy">':'<div class="quote">'+esc(m.body.caption)+'</div>')+
       '<div class="mc-b"><div class="tag">'+esc(m.body.cat||"Overig")+(room?' · '+esc(room.name):'')+'</div>'+
-      (m.body.caption?'<p class="cap">'+esc(m.body.caption)+'</p>':'')+
+      (img&&m.body.caption?'<p class="cap">'+esc(m.body.caption)+'</p>':'')+
       '<div class="mc-meta">'+avatar(m.author,20)+'<span>'+esc(m.author)+'</span><span class="sp"></span>'+(v?'<span>'+v+' eens</span>':'')+(c?'<span>'+c+' reactie'+(c===1?'':'s')+'</span>':'')+'</div></div></button>';
-  }).join("") : '<div class="empty" style="column-span:all">Het moodboard is nog leeg. Voeg de eerste foto toe: een kantoor, materiaal, lamp of sfeer die je aanspreekt.</div>';
+  }).join("") : '<div class="empty" style="column-span:all">Het moodboard is nog leeg. Voeg de eerste foto of tekst toe: een kantoor, materiaal, lamp of sfeer die je aanspreekt.</div>';
   if(state.lightbox) renderLightbox();
 }
 function renderLightbox(){
   var m=posts.filter(function(p){return p.id===state.lightbox;})[0];
   if(!m){ closeLightbox(); return; }
-  var room=m.room&&ROOMS[m.room];
-  if($("#lb-img").getAttribute("src")!==m.body.image_url) $("#lb-img").src=m.body.image_url;
+  var room=m.room&&ROOMS[m.room], img=m.body.image_url, isPhoto=m.kind==="room_photo";
+  $("#lb").classList.toggle("noimg",!img);
+  if(img && $("#lb-img").getAttribute("src")!==img) $("#lb-img").src=img;
+  if(isPhoto){
+    $("#lb-side").innerHTML='<div class="tag">Foto huidige situatie'+(room?' · '+esc(floorOf(room.floor).name)+' · '+esc(room.name):'')+'</div>'+
+      (m.body.caption?'<p style="margin:0;font-size:15px;white-space:pre-wrap">'+esc(m.body.caption)+'</p>':'')+
+      '<div class="thread">'+threadHtml(m.id,null,"Opmerking over deze foto…")+'</div>';
+    return;
+  }
   $("#lb-side").innerHTML='<div class="tag">'+esc(m.body.cat||"Overig")+(room?' · '+esc(floorOf(room.floor).name)+' · '+esc(room.name):'')+'</div>'+
-    (m.body.caption?'<p style="margin:0;font-size:15px;white-space:pre-wrap">'+esc(m.body.caption)+'</p>':'')+
+    (m.body.caption?(img?'<p style="margin:0;font-size:15px;white-space:pre-wrap">'+esc(m.body.caption)+'</p>':'<p class="lb-quote">'+esc(m.body.caption)+'</p>'):'')+
     (m.body.link?'<a href="'+esc(m.body.link)+'" target="_blank" rel="noopener noreferrer" style="font-size:13px;overflow-wrap:anywhere">'+esc(m.body.link)+'</a>':'')+
     '<div class="byline" style="margin-top:0">'+avatar(m.author,22)+'<b>'+esc(m.author)+'</b><span>'+ago(m.created_at)+'</span></div>'+
     '<div class="byline" style="margin-top:0">'+actions(m,false)+'</div>'+
@@ -819,12 +916,12 @@ function renderOverview(){
   ideas.forEach(function(p){P(p.author).i++;}); ms.forEach(function(p){P(p.author).m++;}); cs.forEach(function(p){P(p.author).c++;}); votes.forEach(function(v){P(v.author).v++;});
   var plist=Object.keys(people).map(function(k){return people[k];}).sort(function(a,b){ return (b.i+b.m+b.c)-(a.i+a.m+a.c) || b.v-a.v; });
   $("#kpis").innerHTML=[[ideas.length,"ideeën voor ruimtes"],[ms.length,"moodboard-beelden"],[cs.length,"reacties"],[plist.length,"deelnemers"]].map(function(k){ return '<div class="kpi"><b>'+k[0]+'</b><span>'+k[1]+'</span></div>'; }).join("");
-  var h='<thead><tr><th>Ruimte</th><th>Meest genoemd</th><th class="num">Ideeën</th><th class="num">Reacties</th><th class="num">Eens</th></tr></thead><tbody>';
+  var h='<thead><tr><th>Ruimte</th><th>Meest genoemd</th><th class="num">Ideeën</th><th class="num">Reacties</th><th class="num">Eens</th><th class="num">Onderverhuur</th></tr></thead><tbody>';
   FLOORS.forEach(function(f){
-    h+='<tr class="fl"><td colspan="5">'+esc(f.name)+'</td></tr>';
+    h+='<tr class="fl"><td colspan="6">'+esc(f.name)+'</td></tr>';
     f.rooms.forEach(function(r){
       var id=ideasFor(r.id), c=roomComments(r.id).length+id.reduce(function(s,p){return s+commentsFor(p.id).length;},0), v=id.reduce(function(s,p){return s+votesFor(p.id).length;},0), t=topFuncties(r.id)[0];
-      h+='<tr class="rowlink" data-goto="'+r.id+'"><td>'+esc(r.name)+'</td><td>'+(t?esc(t.label):'<span style="color:var(--muted)">–</span>')+'</td><td class="num">'+id.length+'</td><td class="num">'+c+'</td><td class="num">'+v+'</td></tr>';
+      h+='<tr class="rowlink" data-goto="'+r.id+'"><td>'+esc(r.name)+'</td><td>'+(t?esc(t.label):'<span style="color:var(--muted)">–</span>')+'</td><td class="num">'+id.length+'</td><td class="num">'+c+'</td><td class="num">'+v+'</td><td class="num">'+sublets(r.id).length+'</td></tr>';
     });
   });
   $("#ov-rooms").innerHTML=h+'</tbody>';
@@ -833,14 +930,14 @@ function renderOverview(){
 }
 function exportCsv(){
   var byId={}; posts.forEach(function(p){byId[p.id]=p;});
-  var cols=["type","verdieping","ruimte","naam","datum","functie","wat_erin","indeling","materialen","sfeer","tekst","categorie","afbeelding","link","eens_aantal","eens_door","reactie_op_type","reactie_op_id","id"];
-  var TYPE={room_idea:"idee",mood:"moodboard",comment:"reactie"};
+  var cols=["type","verdieping","ruimte","naam","datum","functie","ideeen","onderverhuren","wat_erin","indeling","materialen","sfeer","tekst","categorie","afbeelding","link","eens_aantal","eens_door","reactie_op_type","reactie_op_id","id"];
+  var TYPE={room_idea:"idee",mood:"moodboard",comment:"reactie",room_photo:"foto_ruimte",sublet:"onderverhuur"};
   var rows=posts.slice().sort(byDate).map(function(p){
     var b=p.body||{}, r=p.room&&ROOMS[p.room], parent=p.parent_id&&byId[p.parent_id];
     if(!r && parent && parent.room) r=ROOMS[parent.room];
     var v=votesFor(p.id);
     return [TYPE[p.kind]||p.kind, r?floorOf(r.floor).name:"", r?r.name:"", p.author, new Date(p.created_at).toLocaleString("nl-NL"),
-      b.functie, b.inhoud, b.indeling, b.materiaal, b.sfeer, b.text||b.caption, b.cat, b.image_url, b.link, v.length, v.map(function(x){return x.author;}).join("; "),
+      b.functie, b.ideeen, p.kind==="sublet"?"ja":"", b.inhoud, b.indeling, b.materiaal, b.sfeer, b.text||b.caption, b.cat, b.image_url, b.link, v.length, v.map(function(x){return x.author;}).join("; "),
       parent?(TYPE[parent.kind]||""):"", p.parent_id||"", p.id];
   });
   var csv=[cols].concat(rows).map(function(r){ return r.map(function(c){ c=c==null?"":String(c); return /[";\n,]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c; }).join(";"); }).join("\r\n");
@@ -854,8 +951,9 @@ function typingInList(){ var a=document.activeElement; return a && a.closest && 
 function renderData(){
   if(typingInList()){ pendingRender=true; renderCounts(); return; }
   pendingRender=false;
-  renderCounts(); renderFloorbar(); renderPlan(); renderRoomHead(); renderRoomLists(); renderMood(); renderOverview();
+  renderCounts(); renderFloorbar(); renderPlan(); if(!adminBusy()) renderRoomHead(); renderRoomLists(); renderMood(); renderOverview();
 }
+function adminBusy(){ var f=$("#p-files"), c=$("#p-cap"); return !!((f&&f.files&&f.files.length) || (c&&(c.value||document.activeElement===c))); }
 function renderCounts(){
   $("#n-plan").textContent=posts.filter(function(p){return p.kind==="room_idea";}).length;
   $("#n-mood").textContent=moods().length;
@@ -887,8 +985,8 @@ $("#idea-cancel").addEventListener("click",closeIdeaForm);
 $("#f-foto").addEventListener("change",function(e){ ideaFile=e.target.files[0]||null; $("#f-thumb").innerHTML=ideaFile?'<img src="'+URL.createObjectURL(ideaFile)+'" alt="">':""; });
 $("#idea-form").addEventListener("submit",function(e){
   e.preventDefault(); if(!requireMe()) return;
-  var body={ functie:$("#f-functie").value.trim(), inhoud:$("#f-inhoud").value.trim(), indeling:$("#f-indeling").value.trim(), materiaal:$("#f-materiaal").value.trim(), sfeer:$("#f-sfeer").value.trim() };
-  if(!body.functie && !body.inhoud && !body.indeling && !body.materiaal && !body.sfeer && !ideaFile){ $("#idea-err").textContent="Vul minstens één veld in."; return; }
+  var body={ functie:$("#f-functie").value.trim(), ideeen:$("#f-ideeen").value.trim(), inhoud:$("#f-inhoud").value.trim(), indeling:$("#f-indeling").value.trim(), materiaal:$("#f-materiaal").value.trim(), sfeer:$("#f-sfeer").value.trim() };
+  if(!body.functie && !body.ideeen && !body.inhoud && !body.indeling && !body.materiaal && !body.sfeer && !ideaFile){ $("#idea-err").textContent="Vul minstens één veld in."; return; }
   var btn=$("#idea-submit"); btn.disabled=true; btn.textContent="Bezig…"; $("#idea-err").textContent="";
   var room=ROOMS[state.room];
   (ideaFile?uploadImage(ideaFile):Promise.resolve(null)).then(function(url){
@@ -919,15 +1017,17 @@ document.addEventListener("paste",function(e){
 $("#mood-form").addEventListener("submit",function(e){
   e.preventDefault(); if(!requireMe()) return;
   var url=$("#m-url").value.trim(), link=$("#m-link").value.trim();
-  if(!moodFiles.length && !url){ $("#mood-err").textContent="Kies een foto of plak een afbeeldingslink."; return; }
+  var capText=$("#m-cap").value.trim();
+  if(!moodFiles.length && !url && !capText){ $("#mood-err").textContent="Voeg een foto toe of schrijf een tekst."; return; }
   if(url && !/^https?:\/\//i.test(url)){ $("#mood-err").textContent="De afbeeldingslink moet met https:// beginnen."; return; }
   var roomId=$("#m-room").value||null, base={ caption:$("#m-cap").value.trim(), cat:$("#m-cat").value, link:/^https?:\/\//i.test(link)?link:"" };
   var btn=$("#mood-submit"); btn.disabled=true; btn.textContent="Uploaden…"; $("#mood-err").textContent="";
   var jobs=moodFiles.map(function(f){ return uploadImage(f); });
   if(url) jobs.push(Promise.resolve(url));
+  if(!jobs.length) jobs.push(Promise.resolve(""));
   Promise.all(jobs).then(function(urls){
     return Promise.all(urls.map(function(u){
-      return insertPost({ kind:"mood", floor:roomId?ROOMS[roomId].floor:null, room:roomId, body:Object.assign({image_url:u},base) });
+      return insertPost({ kind:"mood", floor:roomId?ROOMS[roomId].floor:null, room:roomId, body:u?Object.assign({image_url:u},base):base });
     }));
   }).then(function(r){ closeMoodForm(); toast(r.length>1?r.length+" beelden toegevoegd":"Toegevoegd aan het moodboard"); })
     .catch(function(err){ $("#mood-err").textContent="Uploaden mislukt: "+(err.message||err)+"."; })
@@ -947,6 +1047,14 @@ document.addEventListener("click",function(e){
     if(!t.classList.contains("arm")){ t.classList.add("arm"); var old=t.textContent; t.textContent="Zeker?"; setTimeout(function(){ if(t.isConnected){ t.classList.remove("arm"); t.textContent=old; } },3000); return; }
     return deletePost(t.dataset.del);
   }
+  if((t=e.target.closest("[data-photo]"))) return openLightbox(t.dataset.photo);
+  if((t=e.target.closest("[data-delphoto]"))){
+    if(!t.classList.contains("arm")){ t.classList.add("arm"); t.textContent="Zeker?"; setTimeout(function(){ if(t.isConnected){ t.classList.remove("arm"); t.textContent="Verwijder"; } },3000); return; }
+    var pid=t.dataset.delphoto;
+    posts=posts.filter(function(p){return p.id!==pid;}); renderData();
+    sb.rpc("office_admin_delete_photo",{code:adminCode,p_id:pid}).then(function(res){ if(res.error) toast("Verwijderen mislukt: "+res.error.message); load(); });
+    return;
+  }
   if((t=e.target.closest("[data-cat]"))){ state.moodCat=t.dataset.cat; return renderMood(); }
   if((t=e.target.closest("[data-mood]"))) return openLightbox(t.dataset.mood);
   if((t=e.target.closest("[data-zoom]"))){ window.open(t.dataset.zoom,"_blank","noopener"); return; }
@@ -958,9 +1066,11 @@ document.addEventListener("keydown",function(e){
   if(r && (e.key==="Enter"||e.key===" ")){ e.preventDefault(); selectRoom(r.dataset.room,true); }
   if(e.target.matches && e.target.matches(".cmt-form textarea") && e.key==="Enter" && (e.metaKey||e.ctrlKey)){ e.preventDefault(); e.target.form.requestSubmit(); }
 });
+document.addEventListener("change",function(e){ if(e.target.id==="sublet-cb") toggleSublet(e.target.dataset.sublet, e.target.checked); });
 document.addEventListener("input",function(e){ var k=e.target.dataset && e.target.dataset.draft; if(k) state.drafts[k]=e.target.value; });
 document.addEventListener("focusin",function(e){ if(e.target.matches && e.target.matches(".cmt-form textarea") && !me) { e.target.blur(); showGate(); } });
 document.addEventListener("submit",function(e){
+  if(e.target.id==="photo-form"){ e.preventDefault(); return submitPhotos(); }
   var form=e.target.closest("[data-cform]"); if(!form) return;
   e.preventDefault(); if(!requireMe()) return;
   var key=form.dataset.cform, ta=form.querySelector("textarea"), text=ta.value.trim(); if(!text) return;
@@ -989,6 +1099,37 @@ $("#gate-skip").addEventListener("click",function(){ $("#gate").hidden=true; });
 $("#me-chip").addEventListener("click",showGate);
 $("#csv-btn").addEventListener("click",exportCsv);
 
+// ---------- beheer ----------
+function renderAdmin(){ $("#admin-pill").hidden=!adminCode; $("#admin-link").textContent=adminCode?"Beheermodus uitzetten":"Beheer"; }
+function setAdmin(code){ adminCode=code; if(code) lsSet("fl_office_admin",code); else { try{ localStorage.removeItem("fl_office_admin"); }catch(e){} } renderAdmin(); renderRoomHead(); }
+$("#admin-link").addEventListener("click",function(){
+  if(adminCode){ setAdmin(null); toast("Beheermodus uit"); return; }
+  $("#admin-gate").hidden=false; $("#admin-err").textContent=""; $("#admin-code").value=""; setTimeout(function(){ $("#admin-code").focus(); },30);
+});
+$("#admin-pill").addEventListener("click",function(){ setAdmin(null); toast("Beheermodus uit"); });
+$("#admin-cancel").addEventListener("click",function(){ $("#admin-gate").hidden=true; });
+$("#admin-form").addEventListener("submit",function(e){
+  e.preventDefault(); var code=$("#admin-code").value.trim(); if(!code||!sb) return;
+  sb.rpc("office_admin_check",{code:code}).then(function(res){
+    if(res.error || res.data!==true){ $("#admin-err").textContent="Deze code klopt niet."; return; }
+    $("#admin-gate").hidden=true; setAdmin(code); setTab("plan"); toast("Beheermodus aan: voeg foto's toe bij een ruimte");
+  });
+});
+function submitPhotos(){
+  var files=[].slice.call(($("#p-files")||{}).files||[]), cap=($("#p-cap").value||"").trim(), r=ROOMS[state.room];
+  if(!files.length){ $("#p-err").textContent="Kies eerst een of meer foto's."; return; }
+  var btn=$("#p-submit"); btn.disabled=true; btn.textContent="Uploaden…"; $("#p-err").textContent="";
+  Promise.all(files.map(function(f){
+    return prepImage(f).then(function(blob){
+      var path="ruimtes/"+r.id+"/"+Date.now()+"-"+Math.random().toString(36).slice(2,8)+".jpg";
+      return sb.storage.from(BUCKET).upload(path,blob,{contentType:blob.type||"image/jpeg"}).then(function(res){ if(res.error) throw res.error; return sb.storage.from(BUCKET).getPublicUrl(path).data.publicUrl; });
+    }).then(function(url){
+      return sb.rpc("office_admin_add_photo",{code:adminCode,p_room:r.id,p_floor:r.floor,p_url:url,p_caption:cap}).then(function(res){ if(res.error) throw res.error; return res.data; });
+    });
+  })).then(function(rows){ $("#photo-form").reset(); toast(rows.length+" foto"+(rows.length===1?"":"'s")+" toegevoegd"); load(); })
+    .catch(function(err){ var el=$("#p-err"); if(el) el.textContent="Mislukt: "+(err.message||err); var b=$("#p-submit"); if(b){ b.disabled=false; b.textContent="Foto's toevoegen"; } });
+}
+
 // ---------- thema ----------
 var th=lsGet("fl_office_theme"); if(th) document.documentElement.setAttribute("data-theme",th);
 $("#theme-btn").addEventListener("click",function(){
@@ -999,7 +1140,7 @@ $("#theme-btn").addEventListener("click",function(){
 // ---------- start ----------
 var h=(location.hash||"").slice(1);
 if(ROOMS[h]){ state.room=h; state.floor=ROOMS[h].floor; }
-renderMe(); renderData();
+renderMe(); renderAdmin(); renderData();
 if(h==="moodboard") setTab("mood",false); else if(h==="overzicht") setTab("overview",false);
 initDb();
 if(!me) setTimeout(showGate,600);

@@ -7,7 +7,7 @@
 <meta name="description" content="Denk mee over de inrichting van ons nieuwe kantoor aan de Hendrik Figeeweg 5C in Haarlem.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=Caveat:wght@500;700&display=swap">
 <style>
 :root{
   color-scheme: light;
@@ -19,6 +19,9 @@
   --plan-bg:#fbfcfe; --plan-ink:#0f2549; --plan-grid:rgba(68,109,255,.08); --plan-dim:#7a879e;
   --k-werk:#e2eaff; --k-hal:#f2e9d6; --k-berging:#e8dfd0; --k-sanitair:#dcefee;
   --k-verkeer:#fbebc8; --k-keuken:#dff2e4; --k-open:#ffffff; --k-buiten:#eaf0e6;
+  --board:#e9edf3; --board-dot:rgba(15,37,73,.12); --paper:#ffffff; --paper-ink:#1b2540; --paper-muted:#6b7280;
+  --tape1:rgba(255,214,102,.72); --tape2:rgba(147,178,255,.62); --tape3:rgba(255,160,180,.58); --tape4:rgba(140,220,180,.6);
+  --w1:#446dff; --w2:#0f2549; --w3:#7c3aed; --w4:#0e9f6e; --w5:#d9480f; --w6:#0891b2;
   --shadow:0 1px 2px rgba(15,37,73,.05),0 10px 30px -16px rgba(15,37,73,.25);
   --radius:14px; --radius-sm:9px;
   --font:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -35,6 +38,9 @@
     --plan-bg:#0c1f40; --plan-ink:#cfdcf7; --plan-grid:rgba(147,170,255,.07); --plan-dim:#7f90b3;
     --k-werk:#1b3264; --k-hal:#2c2a26; --k-berging:#302a22; --k-sanitair:#143538;
     --k-verkeer:#3a2f19; --k-keuken:#15352a; --k-open:#0f2549; --k-buiten:#18302a;
+    --board:#0c1f40; --board-dot:rgba(207,220,247,.10); --paper:#f4f6fb; --paper-ink:#1b2540; --paper-muted:#5b6475;
+    --tape1:rgba(255,214,102,.6); --tape2:rgba(147,178,255,.55); --tape3:rgba(255,160,180,.5); --tape4:rgba(140,220,180,.5);
+    --w1:#8aa4ff; --w2:#eaf1ff; --w3:#c4a1ff; --w4:#4fd1a0; --w5:#ffa25e; --w6:#5fd4ea;
     --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px -16px rgba(0,0,0,.7);
   }
 }
@@ -48,6 +54,9 @@
   --plan-bg:#0c1f40; --plan-ink:#cfdcf7; --plan-grid:rgba(147,170,255,.07); --plan-dim:#7f90b3;
   --k-werk:#1b3264; --k-hal:#2c2a26; --k-berging:#302a22; --k-sanitair:#143538;
   --k-verkeer:#3a2f19; --k-keuken:#15352a; --k-open:#0f2549; --k-buiten:#18302a;
+  --board:#0c1f40; --board-dot:rgba(207,220,247,.10); --paper:#f4f6fb; --paper-ink:#1b2540; --paper-muted:#5b6475;
+  --tape1:rgba(255,214,102,.6); --tape2:rgba(147,178,255,.55); --tape3:rgba(255,160,180,.5); --tape4:rgba(140,220,180,.5);
+  --w1:#8aa4ff; --w2:#eaf1ff; --w3:#c4a1ff; --w4:#4fd1a0; --w5:#ffa25e; --w6:#5fd4ea;
   --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px -16px rgba(0,0,0,.7);
 }
 *{box-sizing:border-box}
@@ -211,18 +220,45 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--accent);
 .mood-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:16px}
 .filters{display:flex;flex-wrap:wrap;gap:6px}
 .mood-form{margin-bottom:20px}
-.masonry{columns:4 250px;column-gap:14px}
-.mcard{break-inside:avoid;margin:0 0 14px;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;display:block;width:100%;text-align:left;padding:0;appearance:none}
-.mcard img{display:block;width:100%;height:auto;background:var(--surface-2)}
-.mcard .mc-b{padding:10px 12px}
-.mcard .cap{font-size:13.5px;margin:0 0 6px;overflow-wrap:anywhere}
-.mcard .mc-meta{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+.board{background-color:var(--board);background-image:radial-gradient(var(--board-dot) 1.1px,transparent 1.3px);background-size:18px 18px;border:1px solid var(--border);border-radius:var(--radius);padding:34px 26px 10px}
+@media (max-width:520px){.board{padding:28px 14px 4px}}
+.masonry{columns:4 220px;column-gap:28px}
+.mcard{break-inside:avoid;margin:0 0 34px;background:var(--paper);color:var(--paper-ink);border:0;border-radius:3px;cursor:pointer;display:block;width:100%;text-align:left;padding:10px 10px 0;appearance:none;position:relative;
+  transform:rotate(var(--r,0deg));transition:transform .25s ease,box-shadow .25s ease;
+  box-shadow:0 1px 2px rgba(10,20,40,.10),0 14px 28px -14px rgba(10,20,40,.45)}
+.mcard::before{content:"";position:absolute;top:-11px;left:50%;width:86px;height:24px;transform:translateX(-50%) rotate(var(--tr,0deg));background:var(--tape,var(--tape1));box-shadow:0 1px 1px rgba(0,0,0,.06);z-index:1}
+.mcard:hover,.mcard:focus-visible{transform:rotate(0deg) scale(1.035);z-index:3;box-shadow:0 2px 4px rgba(10,20,40,.12),0 26px 44px -18px rgba(10,20,40,.55)}
+.mcard img{display:block;width:100%;height:auto;background:#e5e7eb;border-radius:1px}
+.mcard .mc-b{padding:10px 4px 12px}
+.mcard .cap{font:600 21px/1.15 "Caveat","Segoe Print","Bradley Hand",cursive;margin:0 0 8px;overflow-wrap:anywhere;color:var(--paper-ink)}
+.mcard .tag{color:#446dff}
+.mcard .mc-meta{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--paper-muted)}
 .mcard .mc-meta .sp{flex:1}
+@media (prefers-reduced-motion: reduce){.mcard,.mcard:hover{transform:none}}
+
+/* sfeerwoorden */
+.words-layout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:900px){.words-layout{grid-template-columns:1fr}}
+.words-q{font-size:clamp(22px,3vw,30px);font-weight:900;letter-spacing:-.02em;margin:6px 0 6px;text-wrap:balance}
+.word-form{display:flex;gap:8px;margin-top:14px}
+.word-form input{flex:1;min-width:0;font-size:16px;padding:11px 13px}
+.my-words{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;align-items:center;font-size:12.5px;color:var(--muted)}
+.wchip{display:inline-flex;align-items:center;gap:4px;border-radius:999px;background:var(--accent-soft);color:var(--text);padding:3px 4px 3px 11px;font-size:13px;font-weight:600}
+.wchip button{appearance:none;border:0;background:none;color:var(--muted);cursor:pointer;font-size:15px;line-height:1;padding:0 6px;border-radius:999px}
+.wchip button:hover{color:var(--danger)}
+.cloud-wrap{border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--board);background-image:radial-gradient(var(--board-dot) 1px,transparent 1.2px);background-size:18px 18px}
+#cloud{display:block;width:100%;height:auto}
+#cloud text{font-family:var(--font);font-weight:800;cursor:pointer;transition:opacity .2s}
+#cloud text:hover{opacity:.75}
+#cloud.has-sel text{opacity:.28}
+#cloud.has-sel text.sel{opacity:1}
+.word-detail h4{margin:0;font-size:20px;font-weight:800;letter-spacing:-.01em}
+.word-detail p{margin:6px 0 12px;color:var(--text-2);font-size:13.5px}
 .tag{font:600 10.5px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--accent);}
 
 /* overview */
-.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:22px}
-@media (max-width:700px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-bottom:22px}
+@media (max-width:900px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}}@media (max-width:520px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .kpi{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
 .kpi b{display:block;font-size:28px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
 .kpi span{font-size:12.5px;color:var(--muted)}
@@ -274,8 +310,6 @@ details.more{margin-bottom:12px;border:1px solid var(--border);border-radius:10p
 details.more summary{cursor:pointer;padding:10px 0;font-size:13px;font-weight:600;color:var(--text-2)}
 details.more[open]{padding-bottom:4px}
 .idea .ideeen{margin:8px 0 0;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}
-.mcard.text{background:var(--accent-soft);border-color:transparent}
-.mcard.text .quote{padding:18px 16px 4px;font-size:17px;line-height:1.4;font-weight:600;letter-spacing:-.01em;white-space:pre-wrap;overflow-wrap:anywhere}
 .lb.noimg{grid-template-columns:1fr}
 .lb.noimg .lb-img{display:none}
 .lb-quote{font-size:20px;line-height:1.4;font-weight:700;letter-spacing:-.01em;white-space:pre-wrap;margin:0;padding-right:36px}
@@ -321,6 +355,7 @@ footer.foot button{appearance:none;background:none;border:0;padding:0;color:var(
     <nav class="tabs" role="tablist">
       <button class="tab" role="tab" data-tab="plan" aria-selected="true">Plattegrond <span class="n" id="n-plan">0</span></button>
       <button class="tab" role="tab" data-tab="mood" aria-selected="false">Moodboard <span class="n" id="n-mood">0</span></button>
+      <button class="tab" role="tab" data-tab="words" aria-selected="false">Sfeerwoorden <span class="n" id="n-words">0</span></button>
       <button class="tab" role="tab" data-tab="overview" aria-selected="false">Overzicht</button>
     </nav>
   </section>
@@ -399,14 +434,14 @@ footer.foot button{appearance:none;background:none;border:0;padding:0;color:var(
     <section id="v-mood" hidden>
       <div class="mood-bar">
         <div class="filters" id="mood-filters"></div>
-        <button class="btn" id="mood-open" type="button">+ Inspiratie toevoegen</button>
+        <button class="btn" id="mood-open" type="button">+ Foto toevoegen</button>
       </div>
       <form class="panel mood-form" id="mood-form" hidden autocomplete="off">
         <div class="sec">
-          <div class="sec-h"><h3>Inspiratie toevoegen</h3><span class="hint">Foto, tekst of allebei. Afbeelding plakken (⌘V) kan ook.</span></div>
+          <div class="sec-h"><h3>Foto op het moodboard</h3><span class="hint">Afbeelding plakken (⌘V) kan ook. Woorden horen bij Sfeerwoorden.</span></div>
           <div class="grid2">
             <div class="field">
-              <label for="m-files">Foto's uploaden <small>optioneel</small></label>
+              <label for="m-files">Foto's uploaden</label>
               <input type="file" id="m-files" accept="image/*" multiple>
               <div class="thumbs" id="m-thumbs" style="margin-top:6px"></div>
             </div>
@@ -416,8 +451,8 @@ footer.foot button{appearance:none;background:none;border:0;padding:0;color:var(
             </div>
           </div>
           <div class="field">
-            <label for="m-cap">Tekst <small>een idee, gevoel of wat je aanspreekt in de foto</small></label>
-            <textarea id="m-cap" maxlength="1000" placeholder="De warme houten wanden met veel planten, voelt als een huiskamer…"></textarea>
+            <label for="m-cap">Bijschrift <small>optioneel: wat spreekt je hierin aan?</small></label>
+            <input type="text" id="m-cap" maxlength="140" placeholder="Warm hout en veel planten!">
           </div>
           <div class="grid2">
             <div class="field">
@@ -440,7 +475,32 @@ footer.foot button{appearance:none;background:none;border:0;padding:0;color:var(
           </div>
         </div>
       </form>
-      <div class="masonry list" id="mood-grid"></div>
+      <div class="board"><div class="masonry list" id="mood-grid"></div></div>
+    </section>
+
+    <!-- SFEERWOORDEN -->
+    <section id="v-words" hidden>
+      <div class="words-layout">
+        <div class="panel">
+          <div class="sec">
+            <div class="eyebrow">Sfeerwoorden</div>
+            <h2 class="words-q">Hoe moet het nieuwe kantoor voelen?</h2>
+            <p class="hint" style="font-size:13.5px;margin:0">Typ een of meer woorden, gescheiden door komma's. Hoe vaker een woord genoemd wordt, hoe groter het in de wolk staat. Klik op een woord om te zien wie het noemde, of om het zelf ook te kiezen.</p>
+            <form class="word-form" id="word-form" autocomplete="off">
+              <input type="text" id="w-input" maxlength="160" placeholder="Bijv. warm, energiek, industrieel" aria-label="Sfeerwoorden">
+              <button class="btn" type="submit">Toevoegen</button>
+            </form>
+            <div class="err" id="w-err" style="margin-top:6px"></div>
+            <div class="my-words" id="my-words"></div>
+          </div>
+          <div class="cloud-wrap" id="cloud-wrap"><svg id="cloud" role="img" aria-label="Woordwolk"></svg></div>
+          <div class="sec word-detail" id="word-detail"></div>
+        </div>
+        <aside class="panel">
+          <div class="sec"><div class="sec-h"><h3>Ranglijst</h3></div>
+          <div class="tbl-wrap"><table id="word-table"></table></div></div>
+        </aside>
+      </div>
     </section>
 
     <!-- OVERZICHT -->
@@ -866,7 +926,8 @@ function renderRoomLists(){
 }
 
 // ---------- rendering: moodboard ----------
-function moods(){ return posts.filter(function(p){ return p.kind==="mood"; }); }
+function moods(){ return posts.filter(function(p){ return p.kind==="mood" && p.body && p.body.image_url; }); }
+function hashNum(str){ var h=2166136261; for(var i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; }
 function renderMood(){
   var all=moods(), cats=["Alle"].concat(MOOD_CATS.filter(function(c){ return all.some(function(m){return m.body.cat===c;}); }));
   if(cats.indexOf(state.moodCat)<0) state.moodCat="Alle";
@@ -877,13 +938,13 @@ function renderMood(){
   var list=all.filter(function(m){ return state.moodCat==="Alle"||m.body.cat===state.moodCat; }).sort(byScore);
   $("#mood-grid").innerHTML = list.length ? list.map(function(m){
     var v=votesFor(m.id).length, c=commentsFor(m.id).length, room=m.room&&ROOMS[m.room];
-    var img=m.body.image_url;
-    return '<button class="mcard'+(img?'':' text')+'" type="button" data-mood="'+m.id+'">'+
-      (img?'<img src="'+esc(img)+'" alt="'+esc(m.body.caption||"Inspiratiebeeld")+'" loading="lazy">':'<div class="quote">'+esc(m.body.caption)+'</div>')+
-      '<div class="mc-b"><div class="tag">'+esc(m.body.cat||"Overig")+(room?' · '+esc(room.name):'')+'</div>'+
-      (img&&m.body.caption?'<p class="cap">'+esc(m.body.caption)+'</p>':'')+
+    var hs=hashNum(m.id), rot=((hs%70)/10-3.5).toFixed(1), trot=(((hs>>7)%80)/10-4).toFixed(1), tape="var(--tape"+(1+((hs>>13)%4))+")";
+    return '<button class="mcard" type="button" data-mood="'+m.id+'" style="--r:'+rot+'deg;--tr:'+trot+'deg;--tape:'+tape+'">'+
+      '<img src="'+esc(m.body.image_url)+'" alt="'+esc(m.body.caption||"Inspiratiebeeld")+'" loading="lazy">'+
+      '<div class="mc-b">'+(m.body.caption?'<p class="cap">'+esc(m.body.caption)+'</p>':'')+
+      '<div class="tag" style="margin-bottom:6px">'+esc(m.body.cat||"Overig")+(room?' · '+esc(room.name):'')+'</div>'+
       '<div class="mc-meta">'+avatar(m.author,20)+'<span>'+esc(m.author)+'</span><span class="sp"></span>'+(v?'<span>'+v+' eens</span>':'')+(c?'<span>'+c+' reactie'+(c===1?'':'s')+'</span>':'')+'</div></div></button>';
-  }).join("") : '<div class="empty" style="column-span:all">Het moodboard is nog leeg. Voeg de eerste foto of tekst toe: een kantoor, materiaal, lamp of sfeer die je aanspreekt.</div>';
+  }).join("") : '<div class="empty" style="column-span:all">Het prikbord is nog leeg. Hang de eerste foto op: een kantoor, materiaal, lamp of sfeer die je aanspreekt.</div>';
   if(state.lightbox) renderLightbox();
 }
 function renderLightbox(){
@@ -908,14 +969,95 @@ function renderLightbox(){
 function openLightbox(id){ state.lightbox=id; $("#lightbox").hidden=false; renderLightbox(); }
 function closeLightbox(){ state.lightbox=null; $("#lightbox").hidden=true; $("#lb-img").removeAttribute("src"); }
 
+// ---------- rendering: sfeerwoorden ----------
+function wordPosts(){ return posts.filter(function(p){ return p.kind==="word" && p.body && p.body.word; }); }
+function wordStats(){
+  var m={};
+  wordPosts().forEach(function(p){ var w=p.body.word; if(!m[w]) m[w]={w:w,n:0,people:[],first:p.created_at}; m[w].n++; m[w].people.push(p); });
+  return Object.keys(m).map(function(k){return m[k];}).sort(function(a,b){ return b.n-a.n || a.w.localeCompare(b.w); });
+}
+function normWord(w){ return String(w||"").toLowerCase().replace(/\s+/g," ").replace(/^[\s.,;:!?"'()\-]+|[\s.,;:!?"'()\-]+$/g,"").slice(0,32); }
+function myWord(w){ return me && wordPosts().some(function(p){ return p.author_pid===me.pid && p.body.word===w; }); }
+var measureCtx=null;
+function textW(t,size){ if(!measureCtx) measureCtx=document.createElement("canvas").getContext("2d"); measureCtx.font="800 "+size+"px Inter, system-ui, sans-serif"; return measureCtx.measureText(t).width; }
+function renderCloud(){
+  var wrap=$("#cloud-wrap"); if(!wrap || $("#v-words").hidden) return;
+  var stats=wordStats().slice(0,90), W=Math.max(300,Math.min(wrap.clientWidth||800,1000)), H=Math.round(W<600?W*0.95:W*0.52);
+  var svg=$("#cloud"); svg.setAttribute("viewBox","0 0 "+W+" "+H);
+  if(!stats.length){ svg.innerHTML='<text x="'+W/2+'" y="'+H/2+'" text-anchor="middle" font-size="18" fill="var(--muted)" style="font-weight:600;cursor:default">Nog geen woorden. Wees de eerste!</text>'; return; }
+  var maxN=stats[0].n, minN=stats[stats.length-1].n, maxF=Math.min(W<600?46:72, W/7), minF=W<600?14:16;
+  var placed=[], out="", cols=["--w1","--w2","--w3","--w4","--w5","--w6"];
+  stats.forEach(function(st,i){
+    var t=maxN===minN?(stats.length<6?.75:.45):Math.sqrt((st.n-minN)/(maxN-minN));
+    var f=Math.round(minF+(maxF-minF)*t), w=textW(st.w,f)+6, h=f*0.95;
+    for(var k=0;k<2400;k++){
+      var a=k*0.23, r=1.6*a, x=W/2+r*Math.cos(a)*(W/H)*0.9-w/2, y=H/2+r*Math.sin(a)-h/2;
+      if(x<4||y<4||x+w>W-4||y+h>H-4) continue;
+      var hit=false;
+      for(var j=0;j<placed.length;j++){ var q=placed[j]; if(x<q.x+q.w&&x+w>q.x&&y<q.y+q.h&&y+h>q.y){ hit=true; break; } }
+      if(!hit){
+        placed.push({x:x,y:y,w:w,h:h});
+        var col=i===0?"--w1":cols[hashNum(st.w)%cols.length];
+        out+='<text x="'+(x+3)+'" y="'+(y+h*0.8)+'" font-size="'+f+'" fill="var('+col+')" data-word="'+esc(st.w)+'" class="'+(state.word===st.w?'sel':'')+'" tabindex="0" role="button"><title>'+esc(st.w)+' · '+st.n+'×</title>'+esc(st.w)+'</text>';
+        break;
+      }
+    }
+  });
+  svg.innerHTML=out;
+  svg.classList.toggle("has-sel",!!state.word);
+}
+function renderWords(){
+  var stats=wordStats();
+  $("#n-words").textContent=stats.length;
+  var mine=me?wordPosts().filter(function(p){return p.author_pid===me.pid;}):[];
+  $("#my-words").innerHTML=mine.length?'<span>Jouw woorden:</span>'+mine.map(function(p){ return '<span class="wchip">'+esc(p.body.word)+'<button type="button" data-unword="'+esc(p.body.word)+'" aria-label="Verwijder '+esc(p.body.word)+'">×</button></span>'; }).join(""):"";
+  var sel=state.word && stats.filter(function(s){return s.w===state.word;})[0];
+  if(state.word && !sel) state.word=null;
+  $("#word-detail").innerHTML = sel ?
+    '<div class="sec-h" style="margin-bottom:0"><h4>“'+esc(sel.w)+'”</h4><button class="act" type="button" data-wordclear>Sluiten</button></div>'+
+    '<p>Genoemd door '+sel.n+' '+(sel.n===1?'persoon':'mensen')+': '+sel.people.map(function(p){return esc(p.author);}).join(", ")+'</p>'+
+    (myWord(sel.w)?'<button class="btn ghost sm" type="button" data-unword="'+esc(sel.w)+'">Haal mijn keuze weg</button>':'<button class="btn sm" type="button" data-plusword="'+esc(sel.w)+'">Ik ook</button>')
+    : '<p class="hint" style="margin:0">Tip: klik op een woord in de wolk om te zien wie het noemde.</p>';
+  $("#word-table").innerHTML='<thead><tr><th>Woord</th><th class="num">Aantal</th><th>Door</th></tr></thead><tbody>'+
+    (stats.length?stats.map(function(s){ return '<tr class="rowlink" data-word="'+esc(s.w)+'"><td><b>'+esc(s.w)+'</b></td><td class="num">'+s.n+'</td><td style="color:var(--text-2);font-size:12.5px">'+s.people.map(function(p){return esc(p.author);}).join(", ")+'</td></tr>'; }).join(""):'<tr><td colspan="3" style="color:var(--muted)">Nog geen woorden.</td></tr>')+'</tbody>';
+  renderCloud();
+}
+function addWords(list){
+  if(!requireMe()) return Promise.resolve();
+  var fresh=list.map(normWord).filter(function(w,i,a){ return w.length>=2 && a.indexOf(w)===i && !myWord(w); });
+  if(!fresh.length) return Promise.resolve(0);
+  var rows=fresh.map(function(w){ return { kind:"word", body:{word:w}, author:me.name, author_pid:me.pid }; });
+  var now=new Date().toISOString();
+  rows.forEach(function(r){ posts.push(Object.assign({ id:"tmp-"+uid(), created_at:now },r)); });
+  renderData();
+  return sb.from("office_posts").insert(rows).then(function(res){ if(res.error && res.error.code!=="23505") toast("Opslaan mislukt"); load(); return fresh.length; });
+}
+function removeWord(w){
+  if(!me) return;
+  posts=posts.filter(function(p){ return !(p.kind==="word" && p.author_pid===me.pid && p.body.word===w); }); renderData();
+  sb.from("office_posts").delete().eq("kind","word").eq("author_pid",me.pid).eq("body->>word",w).then(function(res){ if(res.error) toast("Verwijderen mislukt"); load(); });
+}
+$("#word-form").addEventListener("submit",function(e){
+  e.preventDefault(); if(!requireMe()) return;
+  var raw=$("#w-input").value, parts=raw.split(/[,;\n]+/);
+  if(!raw.trim()){ $("#w-err").textContent="Typ eerst een woord."; return; }
+  if(parts.some(function(p){ return normWord(p).split(" ").length>3; })){ $("#w-err").textContent="Houd het kort: maximaal drie woorden per begrip, gescheiden door komma's."; return; }
+  $("#w-err").textContent="";
+  addWords(parts).then(function(n){ $("#w-input").value=""; if(n) toast(n===1?"Woord toegevoegd":n+" woorden toegevoegd"); else if(n===0) $("#w-err").textContent="Die woorden had je al gekozen."; });
+});
+var cloudResize=null;
+window.addEventListener("resize",function(){ clearTimeout(cloudResize); cloudResize=setTimeout(renderCloud,200); });
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ measureCtx=null; renderCloud(); });
+
 // ---------- rendering: overzicht ----------
 function renderOverview(){
   var ideas=posts.filter(function(p){return p.kind==="room_idea";}), ms=moods(), cs=posts.filter(function(p){return p.kind==="comment";});
   var people={};
-  function P(name){ var k=name.trim(); if(!people[k]) people[k]={name:k,i:0,m:0,c:0,v:0}; return people[k]; }
+  function P(name){ var k=name.trim(); if(!people[k]) people[k]={name:k,i:0,m:0,c:0,v:0,w:0}; return people[k]; }
+  var ws=wordPosts(); ws.forEach(function(p){P(p.author).w++;});
   ideas.forEach(function(p){P(p.author).i++;}); ms.forEach(function(p){P(p.author).m++;}); cs.forEach(function(p){P(p.author).c++;}); votes.forEach(function(v){P(v.author).v++;});
   var plist=Object.keys(people).map(function(k){return people[k];}).sort(function(a,b){ return (b.i+b.m+b.c)-(a.i+a.m+a.c) || b.v-a.v; });
-  $("#kpis").innerHTML=[[ideas.length,"ideeën voor ruimtes"],[ms.length,"moodboard-beelden"],[cs.length,"reacties"],[plist.length,"deelnemers"]].map(function(k){ return '<div class="kpi"><b>'+k[0]+'</b><span>'+k[1]+'</span></div>'; }).join("");
+  $("#kpis").innerHTML=[[ideas.length,"ideeën voor ruimtes"],[ms.length,"moodboard-beelden"],[cs.length,"reacties"],[wordStats().length,"sfeerwoorden"],[plist.length,"deelnemers"]].map(function(k){ return '<div class="kpi"><b>'+k[0]+'</b><span>'+k[1]+'</span></div>'; }).join("");
   var h='<thead><tr><th>Ruimte</th><th>Meest genoemd</th><th class="num">Ideeën</th><th class="num">Reacties</th><th class="num">Eens</th><th class="num">Onderverhuur</th></tr></thead><tbody>';
   FLOORS.forEach(function(f){
     h+='<tr class="fl"><td colspan="6">'+esc(f.name)+'</td></tr>';
@@ -925,19 +1067,19 @@ function renderOverview(){
     });
   });
   $("#ov-rooms").innerHTML=h+'</tbody>';
-  $("#ov-people").innerHTML='<thead><tr><th>Naam</th><th class="num">Ideeën</th><th class="num">Mood</th><th class="num">Reacties</th><th class="num">Eens</th></tr></thead><tbody>'+
-    (plist.length?plist.map(function(p){ return '<tr><td><span style="display:inline-flex;align-items:center;gap:8px">'+avatar(p.name,22)+esc(p.name)+'</span></td><td class="num">'+p.i+'</td><td class="num">'+p.m+'</td><td class="num">'+p.c+'</td><td class="num">'+p.v+'</td></tr>'; }).join(""):'<tr><td colspan="5" style="color:var(--muted)">Nog niemand. Wees de eerste!</td></tr>')+'</tbody>';
+  $("#ov-people").innerHTML='<thead><tr><th>Naam</th><th class="num">Ideeën</th><th class="num">Mood</th><th class="num">Woorden</th><th class="num">Reacties</th><th class="num">Eens</th></tr></thead><tbody>'+
+    (plist.length?plist.map(function(p){ return '<tr><td><span style="display:inline-flex;align-items:center;gap:8px">'+avatar(p.name,22)+esc(p.name)+'</span></td><td class="num">'+p.i+'</td><td class="num">'+p.m+'</td><td class="num">'+p.w+'</td><td class="num">'+p.c+'</td><td class="num">'+p.v+'</td></tr>'; }).join(""):'<tr><td colspan="6" style="color:var(--muted)">Nog niemand. Wees de eerste!</td></tr>')+'</tbody>';
 }
 function exportCsv(){
   var byId={}; posts.forEach(function(p){byId[p.id]=p;});
   var cols=["type","verdieping","ruimte","naam","datum","functie","ideeen","onderverhuren","wat_erin","indeling","materialen","sfeer","tekst","categorie","afbeelding","link","eens_aantal","eens_door","reactie_op_type","reactie_op_id","id"];
-  var TYPE={room_idea:"idee",mood:"moodboard",comment:"reactie",room_photo:"foto_ruimte",sublet:"onderverhuur"};
+  var TYPE={room_idea:"idee",mood:"moodboard",comment:"reactie",room_photo:"foto_ruimte",sublet:"onderverhuur",word:"sfeerwoord"};
   var rows=posts.slice().sort(byDate).map(function(p){
     var b=p.body||{}, r=p.room&&ROOMS[p.room], parent=p.parent_id&&byId[p.parent_id];
     if(!r && parent && parent.room) r=ROOMS[parent.room];
     var v=votesFor(p.id);
     return [TYPE[p.kind]||p.kind, r?floorOf(r.floor).name:"", r?r.name:"", p.author, new Date(p.created_at).toLocaleString("nl-NL"),
-      b.functie, b.ideeen, p.kind==="sublet"?"ja":"", b.inhoud, b.indeling, b.materiaal, b.sfeer, b.text||b.caption, b.cat, b.image_url, b.link, v.length, v.map(function(x){return x.author;}).join("; "),
+      b.functie, b.ideeen, p.kind==="sublet"?"ja":"", b.inhoud, b.indeling, b.materiaal, b.sfeer, b.text||b.caption||b.word, b.cat, b.image_url, b.link, v.length, v.map(function(x){return x.author;}).join("; "),
       parent?(TYPE[parent.kind]||""):"", p.parent_id||"", p.id];
   });
   var csv=[cols].concat(rows).map(function(r){ return r.map(function(c){ c=c==null?"":String(c); return /[";\n,]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c; }).join(";"); }).join("\r\n");
@@ -951,7 +1093,7 @@ function typingInList(){ var a=document.activeElement; return a && a.closest && 
 function renderData(){
   if(typingInList()){ pendingRender=true; renderCounts(); return; }
   pendingRender=false;
-  renderCounts(); renderFloorbar(); renderPlan(); if(!adminBusy()) renderRoomHead(); renderRoomLists(); renderMood(); renderOverview();
+  renderCounts(); renderFloorbar(); renderPlan(); if(!adminBusy()) renderRoomHead(); renderRoomLists(); renderMood(); renderWords(); renderOverview();
 }
 function adminBusy(){ var f=$("#p-files"), c=$("#p-cap"); return !!((f&&f.files&&f.files.length) || (c&&(c.value||document.activeElement===c))); }
 function renderCounts(){
@@ -963,8 +1105,9 @@ document.addEventListener("focusout",function(){ setTimeout(function(){ if(pendi
 function setTab(t, push){
   state.tab=t;
   document.querySelectorAll(".tab").forEach(function(b){ b.setAttribute("aria-selected", b.dataset.tab===t); });
-  $("#v-plan").hidden=t!=="plan"; $("#v-mood").hidden=t!=="mood"; $("#v-overview").hidden=t!=="overview";
-  if(push!==false){ try{ history.replaceState(null,"","#"+(t==="plan"?state.room:t==="mood"?"moodboard":"overzicht")); }catch(e){} }
+  $("#v-plan").hidden=t!=="plan"; $("#v-mood").hidden=t!=="mood"; $("#v-words").hidden=t!=="words"; $("#v-overview").hidden=t!=="overview";
+  if(t==="words") renderCloud();
+  if(push!==false){ try{ history.replaceState(null,"","#"+(t==="plan"?state.room:t==="mood"?"moodboard":t==="words"?"sfeerwoorden":"overzicht")); }catch(e){} }
 }
 function selectRoom(id, scroll){
   var r=ROOMS[id]; if(!r) return;
@@ -1017,14 +1160,12 @@ document.addEventListener("paste",function(e){
 $("#mood-form").addEventListener("submit",function(e){
   e.preventDefault(); if(!requireMe()) return;
   var url=$("#m-url").value.trim(), link=$("#m-link").value.trim();
-  var capText=$("#m-cap").value.trim();
-  if(!moodFiles.length && !url && !capText){ $("#mood-err").textContent="Voeg een foto toe of schrijf een tekst."; return; }
+  if(!moodFiles.length && !url){ $("#mood-err").textContent="Kies een foto of plak een afbeeldingslink."; return; }
   if(url && !/^https?:\/\//i.test(url)){ $("#mood-err").textContent="De afbeeldingslink moet met https:// beginnen."; return; }
   var roomId=$("#m-room").value||null, base={ caption:$("#m-cap").value.trim(), cat:$("#m-cat").value, link:/^https?:\/\//i.test(link)?link:"" };
   var btn=$("#mood-submit"); btn.disabled=true; btn.textContent="Uploaden…"; $("#mood-err").textContent="";
   var jobs=moodFiles.map(function(f){ return uploadImage(f); });
   if(url) jobs.push(Promise.resolve(url));
-  if(!jobs.length) jobs.push(Promise.resolve(""));
   Promise.all(jobs).then(function(urls){
     return Promise.all(urls.map(function(u){
       return insertPost({ kind:"mood", floor:roomId?ROOMS[roomId].floor:null, room:roomId, body:u?Object.assign({image_url:u},base):base });
@@ -1055,6 +1196,10 @@ document.addEventListener("click",function(e){
     sb.rpc("office_admin_delete_photo",{code:adminCode,p_id:pid}).then(function(res){ if(res.error) toast("Verwijderen mislukt: "+res.error.message); load(); });
     return;
   }
+  if((t=e.target.closest("[data-plusword]"))) return addWords([t.dataset.plusword]);
+  if((t=e.target.closest("[data-unword]"))) return removeWord(t.dataset.unword);
+  if(e.target.closest("[data-wordclear]")){ state.word=null; return renderWords(); }
+  if((t=e.target.closest("[data-word]"))){ state.word=state.word===t.dataset.word?null:t.dataset.word; renderWords(); if(t.closest("#word-table")) $("#cloud-wrap").scrollIntoView({behavior:"smooth",block:"center"}); return; }
   if((t=e.target.closest("[data-cat]"))){ state.moodCat=t.dataset.cat; return renderMood(); }
   if((t=e.target.closest("[data-mood]"))) return openLightbox(t.dataset.mood);
   if((t=e.target.closest("[data-zoom]"))){ window.open(t.dataset.zoom,"_blank","noopener"); return; }
@@ -1063,6 +1208,7 @@ document.addEventListener("click",function(e){
 document.addEventListener("keydown",function(e){
   if(e.key==="Escape"){ if(!$("#lightbox").hidden) closeLightbox(); else if(!$("#gate").hidden) $("#gate").hidden=true; }
   var r=e.target.closest && e.target.closest(".room");
+  if(e.target.closest && e.target.closest("#cloud [data-word]") && (e.key==="Enter"||e.key===" ")){ e.preventDefault(); e.target.dispatchEvent(new MouseEvent("click",{bubbles:true})); }
   if(r && (e.key==="Enter"||e.key===" ")){ e.preventDefault(); selectRoom(r.dataset.room,true); }
   if(e.target.matches && e.target.matches(".cmt-form textarea") && e.key==="Enter" && (e.metaKey||e.ctrlKey)){ e.preventDefault(); e.target.form.requestSubmit(); }
 });
@@ -1141,7 +1287,7 @@ $("#theme-btn").addEventListener("click",function(){
 var h=(location.hash||"").slice(1);
 if(ROOMS[h]){ state.room=h; state.floor=ROOMS[h].floor; }
 renderMe(); renderAdmin(); renderData();
-if(h==="moodboard") setTab("mood",false); else if(h==="overzicht") setTab("overview",false);
+if(h==="moodboard") setTab("mood",false); else if(h==="sfeerwoorden") setTab("words",false); else if(h==="overzicht") setTab("overview",false);
 initDb();
 if(!me) setTimeout(showGate,600);
 })();

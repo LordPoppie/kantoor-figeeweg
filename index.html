@@ -284,7 +284,15 @@ tr.rowlink:hover td{background:var(--surface-2)}
 .lb{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr)}
 @media (max-width:760px){.lb{grid-template-columns:1fr}}
 .lb-img{background:#0b1426;display:grid;place-items:center;min-height:240px}
-.lb-img img{max-height:78vh;width:auto;display:block}
+.lb-img img,.lb-img video{max-height:78vh;max-width:100%;width:auto;display:block}
+.photo .play{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+.photo .play span{width:44px;height:44px;border-radius:999px;background:rgba(6,14,30,.62);display:grid;place-items:center;backdrop-filter:blur(2px)}
+.photo .play svg{width:18px;height:18px;margin-left:3px;fill:#fff}
+.photo .dur{position:absolute;left:8px;top:112px;background:rgba(6,14,30,.7);color:#fff;font:600 11px var(--mono);padding:2px 7px;border-radius:999px;pointer-events:none}
+.photo .vbox{position:relative;width:210px;height:140px;border-radius:10px;background:#0b1426;border:1px solid var(--border);overflow:hidden}
+.photo .vbox img{border:0;border-radius:0}
+.progress{height:6px;border-radius:9px;background:var(--surface);overflow:hidden;margin-top:8px}
+.progress i{display:block;height:100%;width:0;background:var(--accent);transition:width .2s}
 .lb-side{padding:20px;display:flex;flex-direction:column;gap:10px;min-width:0}
 .lb-close{position:absolute;top:10px;right:10px}
 .conn{font:500 11px var(--mono);color:var(--muted);display:flex;align-items:center;gap:6px}
@@ -547,7 +555,7 @@ footer.foot button{appearance:none;background:none;border:0;padding:0;color:var(
   <div class="modal-box wide" style="position:relative">
     <button class="icon-btn lb-close" id="lb-close" type="button" aria-label="Sluiten"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     <div class="lb" id="lb">
-      <div class="lb-img"><img id="lb-img" alt=""></div>
+      <div class="lb-img"><img id="lb-img" alt=""><video id="lb-video" controls playsinline preload="none" hidden></video></div>
       <div class="lb-side list" id="lb-side"></div>
     </div>
   </div>
@@ -688,7 +696,7 @@ function toast(msg){ var t=document.createElement("div"); t.className="toast"; t
 function ideasFor(room){ return posts.filter(function(p){ return p.kind==="room_idea" && p.room===room; }); }
 function commentsFor(parentId){ return posts.filter(function(p){ return p.kind==="comment" && p.parent_id===parentId; }).sort(byDate); }
 function roomComments(room){ return posts.filter(function(p){ return p.kind==="comment" && !p.parent_id && p.room===room; }).sort(byDate); }
-function roomPhotos(room){ return posts.filter(function(p){ return p.kind==="room_photo" && p.room===room; }).sort(byDate); }
+function roomPhotos(room){ return posts.filter(function(p){ return (p.kind==="room_photo"||p.kind==="room_video") && p.room===room; }).sort(byDate); }
 function sublets(room){ return posts.filter(function(p){ return p.kind==="sublet" && p.room===room; }); }
 function votesFor(id){ return votes.filter(function(v){ return v.post_id===id; }); }
 function iVoted(id){ return me && votes.some(function(v){ return v.post_id===id && v.author_pid===me.pid; }); }
@@ -852,18 +860,22 @@ function photosHtml(r){
   var ph=roomPhotos(r.id), h="";
   if(ph.length){
     h+='<div class="photos">'+ph.map(function(p){
-      return '<figure class="photo"><button class="ph" type="button" data-photo="'+p.id+'"><img src="'+esc(p.body.image_url)+'" alt="'+esc(p.body.caption||("Foto van "+r.name))+'" loading="lazy"></button>'+
+      var inner = p.kind==="room_video"
+        ? '<div class="vbox">'+(p.body.poster_url?'<img src="'+esc(p.body.poster_url)+'" alt="'+esc(p.body.caption||("Video van "+r.name))+'" loading="lazy">':'')+
+          '<div class="play"><span><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span></div>'+(p.body.duration?'<span class="dur">0:'+String(Math.round(p.body.duration)).padStart(2,"0")+'</span>':'')+'</div>'
+        : '<img src="'+esc(p.body.image_url)+'" alt="'+esc(p.body.caption||("Foto van "+r.name))+'" loading="lazy">';
+      return '<figure class="photo"><button class="ph" type="button" data-photo="'+p.id+'" aria-label="'+(p.kind==="room_video"?"Speel video af":"Bekijk foto")+'">'+inner+'</button>'+
         (p.body.caption?'<figcaption>'+esc(p.body.caption)+'</figcaption>':'')+
         (adminCode?'<button class="x" type="button" data-delphoto="'+p.id+'">Verwijder</button>':'')+'</figure>';
     }).join("")+'</div>';
   } else if(!r.general && !adminCode){
-    h+='<div class="photos-empty">Foto\'s van deze ruimte volgen nog.</div>';
+    h+='<div class="photos-empty">Foto\'s en video\'s van deze ruimte volgen nog.</div>';
   }
   if(adminCode){
-    h+='<form class="admin-box" id="photo-form"><div class="eyebrow" style="margin-bottom:8px">Beheer · foto\'s van '+esc(r.name)+'</div>'+
-      '<div class="field"><input type="file" id="p-files" accept="image/*" multiple></div>'+
+    h+='<form class="admin-box" id="photo-form"><div class="eyebrow" style="margin-bottom:8px">Beheer · foto\'s en video\'s van '+esc(r.name)+'</div>'+
+      '<div class="field"><input type="file" id="p-files" accept="image/*,video/*" multiple><span class="hint">Video\'s worden in je browser verkleind naar 720p voordat ze geüpload worden (max. 1 minuut). Houd dit tabblad open tijdens het verkleinen.</span></div>'+
       '<div class="field"><input type="text" id="p-cap" maxlength="200" placeholder="Bijschrift (optioneel), bijv. kijkrichting naar de straat"></div>'+
-      '<div class="form-actions"><button class="btn sm" type="submit" id="p-submit">Foto\'s toevoegen</button><span class="err" id="p-err"></span></div></form>';
+      '<div class="form-actions"><button class="btn sm" type="submit" id="p-submit">Toevoegen</button><span class="hint" id="p-status"></span><span class="err" id="p-err"></span></div><div class="progress" id="p-prog" hidden><i></i></div></form>';
   }
   return h;
 }
@@ -950,13 +962,16 @@ function renderMood(){
 function renderLightbox(){
   var m=posts.filter(function(p){return p.id===state.lightbox;})[0];
   if(!m){ closeLightbox(); return; }
-  var room=m.room&&ROOMS[m.room], img=m.body.image_url, isPhoto=m.kind==="room_photo";
-  $("#lb").classList.toggle("noimg",!img);
+  var room=m.room&&ROOMS[m.room], isVideo=m.kind==="room_video", img=isVideo?null:m.body.image_url, isPhoto=m.kind==="room_photo"||isVideo;
+  var vid=$("#lb-video");
+  $("#lb").classList.toggle("noimg",!img && !isVideo);
+  $("#lb-img").hidden=isVideo; vid.hidden=!isVideo;
   if(img && $("#lb-img").getAttribute("src")!==img) $("#lb-img").src=img;
+  if(isVideo && vid.getAttribute("src")!==m.body.video_url){ vid.poster=m.body.poster_url||""; vid.src=m.body.video_url; vid.play().catch(function(){}); }
   if(isPhoto){
-    $("#lb-side").innerHTML='<div class="tag">Foto huidige situatie'+(room?' · '+esc(floorOf(room.floor).name)+' · '+esc(room.name):'')+'</div>'+
+    $("#lb-side").innerHTML='<div class="tag">'+(isVideo?'Video':'Foto')+' huidige situatie'+(room?' · '+esc(floorOf(room.floor).name)+' · '+esc(room.name):'')+'</div>'+
       (m.body.caption?'<p style="margin:0;font-size:15px;white-space:pre-wrap">'+esc(m.body.caption)+'</p>':'')+
-      '<div class="thread">'+threadHtml(m.id,null,"Opmerking over deze foto…")+'</div>';
+      '<div class="thread">'+threadHtml(m.id,null,isVideo?"Opmerking over deze video…":"Opmerking over deze foto…")+'</div>';
     return;
   }
   $("#lb-side").innerHTML='<div class="tag">'+esc(m.body.cat||"Overig")+(room?' · '+esc(floorOf(room.floor).name)+' · '+esc(room.name):'')+'</div>'+
@@ -967,7 +982,7 @@ function renderLightbox(){
     '<div class="thread">'+threadHtml(m.id,null)+'</div>';
 }
 function openLightbox(id){ state.lightbox=id; $("#lightbox").hidden=false; renderLightbox(); }
-function closeLightbox(){ state.lightbox=null; $("#lightbox").hidden=true; $("#lb-img").removeAttribute("src"); }
+function closeLightbox(){ state.lightbox=null; $("#lightbox").hidden=true; $("#lb-img").removeAttribute("src"); var v=$("#lb-video"); v.pause(); v.removeAttribute("src"); v.load(); }
 
 // ---------- rendering: sfeerwoorden ----------
 function wordPosts(){ return posts.filter(function(p){ return p.kind==="word" && p.body && p.body.word; }); }
@@ -1073,13 +1088,13 @@ function renderOverview(){
 function exportCsv(){
   var byId={}; posts.forEach(function(p){byId[p.id]=p;});
   var cols=["type","verdieping","ruimte","naam","datum","functie","ideeen","onderverhuren","wat_erin","indeling","materialen","sfeer","tekst","categorie","afbeelding","link","eens_aantal","eens_door","reactie_op_type","reactie_op_id","id"];
-  var TYPE={room_idea:"idee",mood:"moodboard",comment:"reactie",room_photo:"foto_ruimte",sublet:"onderverhuur",word:"sfeerwoord"};
+  var TYPE={room_idea:"idee",mood:"moodboard",comment:"reactie",room_photo:"foto_ruimte",room_video:"video_ruimte",sublet:"onderverhuur",word:"sfeerwoord"};
   var rows=posts.slice().sort(byDate).map(function(p){
     var b=p.body||{}, r=p.room&&ROOMS[p.room], parent=p.parent_id&&byId[p.parent_id];
     if(!r && parent && parent.room) r=ROOMS[parent.room];
     var v=votesFor(p.id);
     return [TYPE[p.kind]||p.kind, r?floorOf(r.floor).name:"", r?r.name:"", p.author, new Date(p.created_at).toLocaleString("nl-NL"),
-      b.functie, b.ideeen, p.kind==="sublet"?"ja":"", b.inhoud, b.indeling, b.materiaal, b.sfeer, b.text||b.caption||b.word, b.cat, b.image_url, b.link, v.length, v.map(function(x){return x.author;}).join("; "),
+      b.functie, b.ideeen, p.kind==="sublet"?"ja":"", b.inhoud, b.indeling, b.materiaal, b.sfeer, b.text||b.caption||b.word, b.cat, b.image_url||b.video_url, b.link, v.length, v.map(function(x){return x.author;}).join("; "),
       parent?(TYPE[parent.kind]||""):"", p.parent_id||"", p.id];
   });
   var csv=[cols].concat(rows).map(function(r){ return r.map(function(c){ c=c==null?"":String(c); return /[";\n,]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c; }).join(";"); }).join("\r\n");
@@ -1095,7 +1110,7 @@ function renderData(){
   pendingRender=false;
   renderCounts(); renderFloorbar(); renderPlan(); if(!adminBusy()) renderRoomHead(); renderRoomLists(); renderMood(); renderWords(); renderOverview();
 }
-function adminBusy(){ var f=$("#p-files"), c=$("#p-cap"); return !!((f&&f.files&&f.files.length) || (c&&(c.value||document.activeElement===c))); }
+function adminBusy(){ var f=$("#p-files"), c=$("#p-cap"), b=$("#p-submit"); if(b&&b.disabled) return true; return !!((f&&f.files&&f.files.length) || (c&&(c.value||document.activeElement===c))); }
 function renderCounts(){
   $("#n-plan").textContent=posts.filter(function(p){return p.kind==="room_idea";}).length;
   $("#n-mood").textContent=moods().length;
@@ -1261,19 +1276,86 @@ $("#admin-form").addEventListener("submit",function(e){
     $("#admin-gate").hidden=true; setAdmin(code); setTab("plan"); toast("Beheermodus aan: voeg foto's toe bij een ruimte");
   });
 });
+function compressVideo(file, onProgress){
+  return new Promise(function(resolve,reject){
+    if(!window.MediaRecorder || !HTMLCanvasElement.prototype.captureStream) return reject(new Error("deze browser kan geen video's verkleinen"));
+    var mime=["video/mp4;codecs=avc1.42E01F,mp4a.40.2","video/mp4;codecs=avc1","video/mp4","video/webm;codecs=vp9,opus","video/webm;codecs=vp8,opus","video/webm"].filter(function(t){ return MediaRecorder.isTypeSupported(t); })[0];
+    if(!mime) return reject(new Error("deze browser kan geen video's verkleinen"));
+    var url=URL.createObjectURL(file), v=document.createElement("video");
+    v.playsInline=true; v.preload="auto"; v.src=url;
+    var ac=null, rec=null, chunks=[], poster=null, done=false;
+    function fail(e){ if(done) return; done=true; try{ clearInterval(timer); }catch(x){} try{ rec&&rec.state!=="inactive"&&rec.stop(); }catch(x){} try{ ac&&ac.close(); }catch(x){} URL.revokeObjectURL(url); reject(e); }
+    v.onerror=function(){ fail(new Error("dit videoformaat kan de browser niet lezen")); };
+    v.onloadedmetadata=function(){
+      if(!isFinite(v.duration) || v.duration>65) return fail(new Error("video is langer dan een minuut"));
+      var max=1280, sc=Math.min(1,max/Math.max(v.videoWidth,v.videoHeight));
+      var w=Math.round(v.videoWidth*sc/2)*2, h=Math.round(v.videoHeight*sc/2)*2;
+      var c=document.createElement("canvas"); c.width=w; c.height=h; var ctx=c.getContext("2d");
+      var stream=c.captureStream(30);
+      try{
+        var AC=window.AudioContext||window.webkitAudioContext; ac=new AC();
+        var src=ac.createMediaElementSource(v), dest=ac.createMediaStreamDestination(); src.connect(dest);
+        dest.stream.getAudioTracks().forEach(function(t){ stream.addTrack(t); });
+      }catch(e){ ac=null; }
+      rec=new MediaRecorder(stream,{ mimeType:mime, videoBitsPerSecond:2500000, audioBitsPerSecond:96000 });
+      rec.ondataavailable=function(e){ if(e.data && e.data.size) chunks.push(e.data); };
+      rec.onstop=function(){
+        if(done) return; done=true; try{ ac&&ac.close(); }catch(x){} URL.revokeObjectURL(url);
+        resolve({ blob:new Blob(chunks,{type:mime.split(";")[0]}), poster:poster, duration:v.duration, ext:mime.indexOf("mp4")>=0?"mp4":"webm" });
+      };
+      function draw(){
+        if(done) return;
+        ctx.drawImage(v,0,0,w,h);
+        if(!poster && v.currentTime>0.05){ poster="pending"; c.toBlob(function(b){ poster=b; },"image/jpeg",.82); }
+        onProgress && onProgress(Math.min(1,v.currentTime/v.duration));
+      }
+      var timer=null;
+      v.onended=function(){ clearInterval(timer); ctx.drawImage(v,0,0,w,h); setTimeout(function(){ if(rec.state!=="inactive") rec.stop(); },150); };
+      ctx.drawImage(v,0,0,w,h);
+      rec.start(250);
+      var go=function(){ if(ac && ac.state==="suspended") ac.resume(); draw(); timer=setInterval(draw,1000/30); };
+      v.play().then(go).catch(function(){ v.muted=true; v.play().then(go).catch(function(){ fail(new Error("video kon niet worden afgespeeld om te verkleinen")); }); });
+    };
+  });
+}
+function uploadBlob(path, blob){
+  return sb.storage.from(BUCKET).upload(path,blob,{contentType:blob.type}).then(function(res){ if(res.error) throw res.error; return sb.storage.from(BUCKET).getPublicUrl(path).data.publicUrl; });
+}
 function submitPhotos(){
   var files=[].slice.call(($("#p-files")||{}).files||[]), cap=($("#p-cap").value||"").trim(), r=ROOMS[state.room];
-  if(!files.length){ $("#p-err").textContent="Kies eerst een of meer foto's."; return; }
-  var btn=$("#p-submit"); btn.disabled=true; btn.textContent="Uploaden…"; $("#p-err").textContent="";
-  Promise.all(files.map(function(f){
-    return prepImage(f).then(function(blob){
-      var path="ruimtes/"+r.id+"/"+Date.now()+"-"+Math.random().toString(36).slice(2,8)+".jpg";
-      return sb.storage.from(BUCKET).upload(path,blob,{contentType:blob.type||"image/jpeg"}).then(function(res){ if(res.error) throw res.error; return sb.storage.from(BUCKET).getPublicUrl(path).data.publicUrl; });
-    }).then(function(url){
-      return sb.rpc("office_admin_add_photo",{code:adminCode,p_room:r.id,p_floor:r.floor,p_url:url,p_caption:cap}).then(function(res){ if(res.error) throw res.error; return res.data; });
-    });
-  })).then(function(rows){ $("#photo-form").reset(); toast(rows.length+" foto"+(rows.length===1?"":"'s")+" toegevoegd"); load(); })
-    .catch(function(err){ var el=$("#p-err"); if(el) el.textContent="Mislukt: "+(err.message||err); var b=$("#p-submit"); if(b){ b.disabled=false; b.textContent="Foto's toevoegen"; } });
+  if(!files.length){ $("#p-err").textContent="Kies eerst een of meer foto's of video's."; return; }
+  var btn=$("#p-submit"); btn.disabled=true; $("#p-err").textContent="";
+  var status=function(t){ var el=$("#p-status"); if(el) el.textContent=t; };
+  var prog=function(f){ var el=$("#p-prog"); if(!el) return; el.hidden=f==null; if(f!=null) el.firstChild.style.width=Math.round(f*100)+"%"; };
+  var base="ruimtes/"+r.id+"/", stamp=function(){ return Date.now()+"-"+Math.random().toString(36).slice(2,8); };
+  var photos=files.filter(function(f){ return !/^video\//.test(f.type); }), videos=files.filter(function(f){ return /^video\//.test(f.type); });
+  var added=0;
+  status("Uploaden…");
+  Promise.all(photos.map(function(f){
+    return prepImage(f).then(function(blob){ return uploadBlob(base+stamp()+".jpg",blob); })
+      .then(function(url){ return sb.rpc("office_admin_add_photo",{code:adminCode,p_room:r.id,p_floor:r.floor,p_url:url,p_caption:cap}); })
+      .then(function(res){ if(res.error) throw res.error; added++; });
+  })).then(function(){
+    return videos.reduce(function(chain,f,i){
+      return chain.then(function(){
+        var label=videos.length>1?" ("+(i+1)+"/"+videos.length+")":"";
+        status("Video verkleinen"+label+"…"); prog(0);
+        return compressVideo(f,prog).then(function(out){
+          var blob=out.blob;
+          var origOk=/^video\/mp4$/.test(f.type) && f.size<=50*1024*1024;
+          if(origOk && f.size<=blob.size){ blob=f; out.ext="mp4"; }
+          if(blob.size>50*1024*1024) throw new Error("de video is na verkleinen nog groter dan 50 MB");
+          status("Video uploaden"+label+" ("+(blob.size/1048576).toFixed(1)+" MB)…"); prog(1);
+          var id=stamp();
+          var posterP=(out.poster && out.poster!=="pending") ? uploadBlob(base+id+"-poster.jpg",out.poster) : Promise.resolve("");
+          return Promise.all([uploadBlob(base+id+"."+out.ext,blob),posterP]).then(function(u){
+            return sb.rpc("office_admin_add_video",{code:adminCode,p_room:r.id,p_floor:r.floor,p_url:u[0],p_poster:u[1],p_caption:cap,p_duration:Math.round(out.duration*10)/10});
+          }).then(function(res){ if(res.error) throw res.error; added++; });
+        });
+      });
+    },Promise.resolve());
+  }).then(function(){ var f=$("#photo-form"); if(f) f.reset(); status(""); prog(null); toast(added+" "+(added===1?"bestand":"bestanden")+" toegevoegd"); btn.disabled=false; load(); })
+    .catch(function(err){ status(""); prog(null); var el=$("#p-err"); if(el) el.textContent="Mislukt: "+(err.message||err); var b=$("#p-submit"); if(b) b.disabled=false; if(added) load(); });
 }
 
 // ---------- thema ----------

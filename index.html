@@ -594,8 +594,7 @@ var FLOORS = [
       { id:"bg-entree", name:"Entreehal", kind:"verkeer", poly:rect(0,L-4.44,3.40,4.44), label:[2.1,L-2.0], note:"Hoofdingang met trap naar de 1e verdieping." },
       { id:"bg-berging-1", name:"Berging 1", kind:"berging", poly:rect(0,L-10.59,4.95,3.82) },
       { id:"bg-berging-2", name:"Berging 2", kind:"berging", poly:rect(0,L-17.25,4.95,6.66), note:"Plafondhoogte 2,50 m." },
-      { id:"bg-sanitair", name:"Toiletten & douche", kind:"sanitair", poly:rect(0,L-18.45,4.95,1.2), one:true, note:"3 toiletten en een douche." },
-      { id:"bg-achterhal", name:"Achterhal", kind:"verkeer", poly:rect(0,L-21.63,4.95,3.18), note:"Hal bij de toiletten, met deur naar de bedrijfshal." },
+      { id:"bg-sanitair", name:"Toiletten & douche", short:"Toiletten", kind:"sanitair", poly:rect(0,L-21.63,4.95,4.38), note:"3 toiletten, een douche en de bijbehorende hal, met deur naar de bedrijfshal." },
       { id:"bg-buiten", name:"Voorterrein", kind:"buiten", poly:rect(0,L+0.9,14.73,4.2), outside:true, note:"4 parkeerplaatsen op eigen terrein aan de voorzijde." }
     ],
     extras:function(){
@@ -609,7 +608,7 @@ var FLOORS = [
     }
   },
   { id:"tv", name:"Tussenverdieping", area:"ca. 60 m²", fs:.5,
-    desc:"Magazijn/berging boven de hal: een overloop langs vijf bergruimtes. Berging D heeft een lage plafondhoogte (1,85 m); in berging E staat de technische installatie.",
+    desc:"Magazijn/berging boven de hal: een overloop langs vijf bergruimtes. Berging D heeft een lage plafondhoogte (1,85 m); achterin zit de servicekast van de warmtepomp.",
     w:4.85, h:14.92, street:false,
     rooms:[
       { id:"tv-overloop", name:"Overloop", kind:"verkeer", poly:rect(3.80,0,1.05,14.92), vertical:true },
@@ -617,9 +616,9 @@ var FLOORS = [
       { id:"tv-berging-b", name:"Berging B", kind:"berging", poly:rect(0.65,2.66,3.15,2.32) },
       { id:"tv-berging-c", name:"Berging C", kind:"berging", poly:rect(0.97,4.98,2.83,2.78) },
       { id:"tv-berging-d", name:"Berging D", kind:"berging", poly:rect(0.97,7.76,2.83,3.21), note:"Plafondhoogte 1,85 m." },
-      { id:"tv-berging-e", name:"Berging E", kind:"berging", label:[1.9,13.1], badge:[3.35,11.45],
+      { id:"tv-berging-e", name:"Servicekast warmtepomp", short:"Servicekast", kind:"berging", label:[1.9,13.1], badge:[3.35,11.45],
         poly:[[0,0],[0.5,0],[0.5,2.66],[0.65,2.66],[0.65,4.98],[0.97,4.98],[0.97,10.97],[3.80,10.97],[3.80,14.92],[0,14.92]],
-        note:"Technische ruimte (o.a. boiler), met gang langs de andere bergingen." }
+        note:"Servicekast met de warmtepompinstallatie, met een gang langs de andere bergingen." }
     ],
     extras:function(){ return stairs(2.1,-1.9,2.75,1.85,"h"); }
   },
@@ -804,17 +803,17 @@ function renderPlan(){
     if(!r.poly) return;
     var bb=r.bb, lx=r.label?r.label[0]:(bb.x0+bb.x1)/2, ly=r.label?r.label[1]:(bb.y0+bb.y1)/2;
     var nfs=fs*(r.fsx||1)*(r.one?.62:1), n=roomActivity(r.id);
-    var avail=(r.vertical?(bb.y1-bb.y0):(bb.x1-bb.x0))*.86, chars=r.name.length+(r.one||r.vertical?9:0);
+    var avail=(r.vertical?(bb.y1-bb.y0):(bb.x1-bb.x0))*.86, chars=(r.short||r.name).length+(r.one||r.vertical?9:0);
     if(chars*.58*nfs>avail) nfs=avail/(chars*.58);
     if(!r.one && !r.vertical && nfs*2.3>(bb.y1-bb.y0)) nfs=(bb.y1-bb.y0)/2.3;
     var afs=nfs*.72;
     var txt;
     if(r.vertical){
-      txt='<text class="rn" x="'+lx+'" y="'+ly+'" font-size="'+(nfs*.8)+'" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90 '+lx+' '+ly+')">'+esc(r.name)+' · '+nl(r.area,1)+' m²</text>';
+      txt='<text class="rn" x="'+lx+'" y="'+ly+'" font-size="'+(nfs*.8)+'" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90 '+lx+' '+ly+')">'+esc(r.short||r.name)+' · '+nl(r.area,1)+' m²</text>';
     } else if(r.one){
       txt='<text class="rn" x="'+lx+'" y="'+ly+'" font-size="'+nfs+'" text-anchor="middle" dominant-baseline="middle">'+esc(r.name)+'<tspan class="ra" font-weight="400"> · '+nl(r.area,1)+' m²</tspan></text>';
     } else {
-      txt='<text class="rn" x="'+lx+'" y="'+(ly-nfs*.15)+'" font-size="'+nfs+'" text-anchor="middle">'+esc(r.name)+'</text>'+
+      txt='<text class="rn" x="'+lx+'" y="'+(ly-nfs*.15)+'" font-size="'+nfs+'" text-anchor="middle">'+esc(r.short||r.name)+'</text>'+
           '<text class="ra" x="'+lx+'" y="'+(ly+afs*1.25)+'" font-size="'+afs+'" text-anchor="middle">'+nl(r.area,1)+' m²</text>';
     }
     var badge="";
